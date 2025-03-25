@@ -82,7 +82,7 @@ export default function Experience() {
       id="experience"
       className="py-12 sm:py-16 md:py-20 overflow-hidden"
     >
-      <div className="container px-4 md:px-6">
+      <div className=" px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <FadeIn direction="up">
             <div className="space-y-2">

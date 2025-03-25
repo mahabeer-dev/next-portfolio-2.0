@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Code2Icon,
   DatabaseIcon,
@@ -10,35 +10,30 @@ import {
   GitBranchIcon,
   TerminalIcon,
   CloudIcon,
-} from "lucide-react"
-import { StaggerChildren, StaggerItem } from "./animations"
+} from "lucide-react";
+import { StaggerChildren, StaggerItem } from "./animations";
 
 export default function Skills() {
   const skills = [
     {
       category: "Frontend",
       icon: <Code2Icon className="h-6 w-6 sm:h-8 sm:w-8" />,
-      items: ["React", "Next.js", "TypeScript", "HTML/CSS", "Tailwind CSS"],
+      items: ["React/NextJs", "TypeScript", , "Tailwind CSS", "SvelteJs"],
     },
     {
       category: "Backend",
       icon: <ServerIcon className="h-6 w-6 sm:h-8 sm:w-8" />,
-      items: ["Node.js", "Express", "REST APIs", "GraphQL", "Authentication"],
+      items: ["Node.js", "Express", "REST APIs", "SvelteKit"],
     },
     {
       category: "Database",
       icon: <DatabaseIcon className="h-6 w-6 sm:h-8 sm:w-8" />,
-      items: ["MongoDB", "PostgreSQL", "MySQL", "Prisma", "Supabase"],
-    },
-    {
-      category: "Design",
-      icon: <PaletteIcon className="h-6 w-6 sm:h-8 sm:w-8" />,
-      items: ["Figma", "UI/UX", "Responsive Design", "Accessibility", "Design Systems"],
+      items: ["MongoDB", "MySQL", "Prisma", "Drizzle"],
     },
     {
       category: "Tools",
       icon: <LayoutIcon className="h-6 w-6 sm:h-8 sm:w-8" />,
-      items: ["VS Code", "Postman", "Chrome DevTools", "npm/yarn", "Webpack"],
+      items: ["VS Code", "Postman", "Chrome DevTools", "pnpm/yarn", "Webpack"],
     },
     {
       category: "Version Control",
@@ -46,20 +41,15 @@ export default function Skills() {
       items: ["Git", "GitHub", "GitLab", "CI/CD", "Code Reviews"],
     },
     {
-      category: "Testing",
-      icon: <TerminalIcon className="h-6 w-6 sm:h-8 sm:w-8" />,
-      items: ["Jest", "React Testing Library", "Cypress", "TDD", "E2E Testing"],
-    },
-    {
       category: "Deployment",
       icon: <CloudIcon className="h-6 w-6 sm:h-8 sm:w-8" />,
-      items: ["Vercel", "Netlify", "AWS", "Docker", "Kubernetes"],
+      items: ["Vercel", "Netlify", "AWS", "VPS"],
     },
-  ]
+  ];
 
   return (
     <section id="skills" className="py-12 sm:py-16 md:py-20 overflow-hidden">
-      <div className="container px-4 md:px-6">
+      <div className=" px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
@@ -79,8 +69,12 @@ export default function Skills() {
               <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex flex-col items-center space-y-3 sm:space-y-4">
-                    <div className="rounded-full bg-primary/10 p-2 sm:p-3 text-primary">{skill.icon}</div>
-                    <h3 className="text-lg sm:text-xl font-bold">{skill.category}</h3>
+                    <div className="rounded-full bg-primary/10 p-2 sm:p-3 text-primary">
+                      {skill.icon}
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-bold">
+                      {skill.category}
+                    </h3>
                     <ul className="space-y-1 sm:space-y-2 text-center text-xs sm:text-sm text-muted-foreground">
                       {skill.items.map((item, itemIndex) => (
                         <li key={itemIndex}>{item}</li>
@@ -94,6 +88,5 @@ export default function Skills() {
         </StaggerChildren>
       </div>
     </section>
-  )
+  );
 }
-
