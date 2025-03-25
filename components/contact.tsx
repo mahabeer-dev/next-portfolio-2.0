@@ -154,7 +154,7 @@ export default function Contact() {
           </FadeIn>
           <FadeIn direction="right" delay={0.4}>
             <div className="rounded-lg border bg-card p-4 sm:p-6 shadow-sm">
-              <form className="space-y-3 sm:space-y-4">
+              <form onSubmit={onAddQuery} className="space-y-3 sm:space-y-4">
                 <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
                   <div className="space-y-1 sm:space-y-2">
                     <label
@@ -221,7 +221,6 @@ export default function Contact() {
                 <Button
                   type="submit"
                   className="w-full text-xs sm:text-sm h-8 sm:h-10 cursor-pointer disabled:cursor-not-allowed"
-                  onClick={onAddQuery}
                   disabled={
                     isLoading || !name || !email || !subject || !message
                   }
