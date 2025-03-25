@@ -11,12 +11,43 @@ import {
   GithubIcon,
   TwitterIcon,
   LinkedinIcon,
-  InstagramIcon,
+  Circle,
+  // InstagramIcon,
 } from "lucide-react";
 import { FadeIn } from "./animations";
 import Link from "next/link";
+import { useCallback, useState } from "react";
 
 export default function Contact() {
+  const [isLoading, setIsloading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+
+  const resetForm = useCallback(() => {
+    setEmail("");
+    setName("");
+    setSubject("");
+    setMessage("");
+  }, []);
+
+  const onAddQuery = useCallback(async () => {
+    try {
+      setIsloading(true);
+      const resp = await fetch("/api/contact", {
+        method: "post",
+        body: JSON.stringify({ name, email, subject, message }),
+      });
+
+      if (resp.status === 200) {
+        alert("Your query has been submitted successfully");
+        resetForm();
+      }
+    } catch (error) {}
+    setIsloading(false);
+  }, [name, email, subject, message, resetForm]);
+
   return (
     <section id="contact" className="py-12 sm:py-16 md:py-20 overflow-hidden">
       <div className=" px-4 md:px-6">
@@ -136,6 +167,8 @@ export default function Contact() {
                       id="name"
                       placeholder="john"
                       className="text-xs sm:text-sm h-8 sm:h-10"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                   <div className="space-y-1 sm:space-y-2">
@@ -148,8 +181,10 @@ export default function Contact() {
                     <Input
                       id="email"
                       type="email"
+                      value={email}
                       placeholder="john@example.com"
                       className="text-xs sm:text-sm h-8 sm:h-10"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -162,8 +197,10 @@ export default function Contact() {
                   </label>
                   <Input
                     id="subject"
+                    value={subject}
                     placeholder="Project Inquiry"
                     className="text-xs sm:text-sm h-8 sm:h-10"
+                    onChange={(e) => setSubject(e.target.value)}
                   />
                 </div>
                 <div className="space-y-1 sm:space-y-2">
@@ -174,17 +211,33 @@ export default function Contact() {
                     Message
                   </label>
                   <Textarea
+                    value={message}
                     id="message"
                     placeholder="Tell me about your project..."
                     className="min-h-[100px] sm:min-h-[150px] text-xs sm:text-sm"
+                    onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="w-full text-xs sm:text-sm h-8 sm:h-10"
+                  className="w-full text-xs sm:text-sm h-8 sm:h-10 cursor-pointer disabled:cursor-not-allowed"
+                  onClick={onAddQuery}
+                  disabled={
+                    isLoading || !name || !email || !subject || !message
+                  }
                 >
-                  <SendIcon className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
-                  Send Message
+                  {!isLoading && (
+                    <>
+                      <SendIcon className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                      Send Message
+                    </>
+                  )}
+                  {isLoading && (
+                    <>
+                      <Circle className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                      Please wait...
+                    </>
+                  )}
                 </Button>
               </form>
             </div>
