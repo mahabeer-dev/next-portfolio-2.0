@@ -11,40 +11,37 @@ import { FadeIn, StaggerChildren, StaggerItem } from "./animations";
 export default function Projects() {
   const projects = [
     {
-      title: "E-commerce Platform",
+      title: "Minoas Rentals",
       description:
-        "A full-featured e-commerce platform with product management, cart functionality, and payment processing.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["Next.js", "TypeScript", "Tailwind CSS", "Stripe", "Prisma"],
-      liveUrl: "#",
-      githubUrl: "#",
+        "Minoas Rentals, rental booking platform developed with Svelte, designed for convenient and flexible vehicle rentals. Users can easily browse available cars, check rates, and book rentals for desired dates.",
+      image: "/projects/minoas.webp",
+      tags: ["SvelteKit", "TypeScript", "Tailwind CSS", "Stripe", "Prisma"],
+      liveUrl: "https://www.minoasrentals.com/",
     },
     {
-      title: "Task Management App",
+      title: "LinkedScribe AI",
       description:
-        "A collaborative task management application with real-time updates and team functionality.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["React", "Node.js", "Socket.io", "MongoDB", "Express"],
-      liveUrl: "#",
-      githubUrl: "#",
+        "LinkedScribe is an AI-powered platform designed to simplify LinkedIn content creation. Whether you’re building your personal brand or enhancing your company’s LinkedIn presence, LinkedScribe provides the resources to make every post impactful.",
+      image: "/projects/linkedscribe.webp",
+      tags: ["Bubble.io", "Stripe", "Open AI"],
+      liveUrl: "https://app.linkedscribe.com/",
     },
     {
-      title: "Portfolio Website",
+      title: "Memantra Wellness",
       description:
-        "A responsive portfolio website showcasing projects and skills with a modern design.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
-      liveUrl: "#",
-      githubUrl: "#",
+        "MeMantra Wellness is a holistic nutrition and wellness platform designed to empower individuals on their journey to better health. We focus on personalized care with our  personalized plans",
+      image: "/projects/memantra.webp",
+      tags: ["SvelteKit", "Tailwind CSS", "Razorpay", "VPS", "Mysql"],
+      liveUrl: "https://memantra.co.in/",
     },
     {
-      title: "Weather Dashboard",
+      title: "ClipMe Mobile App",
       description:
         "A weather dashboard that displays current and forecasted weather data for multiple locations.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["React", "OpenWeather API", "Chart.js", "Geolocation"],
-      liveUrl: "#",
-      githubUrl: "#",
+      image: "/projects/clipme.webp",
+      tags: ["React Native", "Firebase", "Firestore", "One Signal"],
+      liveUrl:
+        "https://play.google.com/store/apps/details?id=com.clipme.extension",
     },
   ];
 
@@ -108,21 +105,6 @@ export default function Projects() {
                       >
                         <ExternalLinkIcon className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
                         Live Demo
-                      </Link>
-                    </Button>
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className="text-xs h-8"
-                    >
-                      <Link
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <GithubIcon className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
-                        GitHub
                       </Link>
                     </Button>
                   </div>
