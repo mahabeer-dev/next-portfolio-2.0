@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "./animations";
+import Link from "next/link";
 
 export default function About() {
   return (
@@ -49,7 +50,13 @@ export default function About() {
                   className="w-full min-[400px]:w-auto text-sm"
                   aria-label="Download Resume"
                 >
-                  Download Resume
+                  <Link
+                    className="px-btn px-btn-theme"
+                    href="/MahabeerResume.pdf"
+                    target="_blank"
+                  >
+                    Download Resume
+                  </Link>
                 </Button>
               </div>
             </FadeIn>

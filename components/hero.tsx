@@ -40,7 +40,7 @@ export default function Hero() {
             <div className="mx-auto mt-4 sm:mt-6 max-w-xl text-center text-muted-foreground">
               <p className="mb-6 sm:mb-8 text-sm sm:text-base">
                 I build exceptional and accessible digital experiences for the
-                web.
+                web and mobile.
               </p>
             </div>
           </FadeIn>
