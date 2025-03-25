@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { GithubIcon, TwitterIcon, LinkedinIcon, InstagramIcon, ArrowUpIcon } from "lucide-react"
-import { motion } from "framer-motion"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  GithubIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  // InstagramIcon,
+  ArrowUpIcon,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
@@ -13,28 +19,49 @@ export default function Footer() {
           © {new Date().getFullYear()} Mahabeer. All rights reserved.
         </p>
         <div className="flex items-center space-x-2 sm:space-x-4">
-          <Button variant="ghost" size="icon" asChild className="h-8 w-8 sm:h-9 sm:w-9">
-            <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="h-8 w-8 sm:h-9 sm:w-9"
+          >
+            <Link
+              href="https://github.com/mahabeer-dev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <GithubIcon className="h-4 w-4 sm:h-5 sm:w-5" />
               <span className="sr-only">GitHub</span>
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" asChild className="h-8 w-8 sm:h-9 sm:w-9">
-            <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="h-8 w-8 sm:h-9 sm:w-9"
+          >
+            <Link
+              href="https://x.com/mahabeer_dev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <TwitterIcon className="h-4 w-4 sm:h-5 sm:w-5" />
               <span className="sr-only">Twitter</span>
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" asChild className="h-8 w-8 sm:h-9 sm:w-9">
-            <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="h-8 w-8 sm:h-9 sm:w-9"
+          >
+            <Link
+              href="https://www.linkedin.com/in/mahabeer-dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <LinkedinIcon className="h-4 w-4 sm:h-5 sm:w-5" />
               <span className="sr-only">LinkedIn</span>
-            </Link>
-          </Button>
-          <Button variant="ghost" size="icon" asChild className="h-8 w-8 sm:h-9 sm:w-9">
-            <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <InstagramIcon className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="sr-only">Instagram</span>
             </Link>
           </Button>
         </div>
@@ -57,6 +84,5 @@ export default function Footer() {
         </motion.div>
       </div>
     </footer>
-  )
+  );
 }
-
