@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ArrowDownIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
-import { FadeIn } from "./animations"
+import Link from "next/link";
+import { ArrowDownIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { FadeIn } from "./animations";
 
 export default function Hero() {
   return (
@@ -23,7 +23,7 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  John Doe
+                  Mahabeer
                 </motion.span>
               </h1>
               <motion.p
@@ -39,7 +39,8 @@ export default function Hero() {
           <FadeIn delay={0.6}>
             <div className="mx-auto mt-4 sm:mt-6 max-w-xl text-center text-muted-foreground">
               <p className="mb-6 sm:mb-8 text-sm sm:text-base">
-                I build exceptional and accessible digital experiences for the web.
+                I build exceptional and accessible digital experiences for the
+                web.
               </p>
             </div>
           </FadeIn>
@@ -74,6 +75,5 @@ export default function Hero() {
         </Link>
       </motion.div>
     </section>
-  )
+  );
 }
-

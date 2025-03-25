@@ -93,7 +93,7 @@ export default function Contact() {
                     >
                       Name
                     </label>
-                    <Input id="name" placeholder="John Doe" className="text-xs sm:text-sm h-8 sm:h-10" />
+                    <Input id="name" placeholder="Mahabeer" className="text-xs sm:text-sm h-8 sm:h-10" />
                   </div>
                   <div className="space-y-1 sm:space-y-2">
                     <label

@@ -7,9 +7,9 @@ import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "John Doe | Full Stack Developer",
+  title: "Mahabeer | Full Stack Developer",
   description:
-    "Professional portfolio of John Doe, a full stack developer specializing in React, Next.js, and modern web technologies.",
+    "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
   keywords: ["developer", "full stack", "react", "next.js", "portfolio", "web development"],
 }
 

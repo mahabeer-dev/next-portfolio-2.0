@@ -47,7 +47,7 @@ export default function About() {
               <div className="relative h-[250px] w-[250px] sm:h-[300px] sm:w-[300px] md:h-[350px] md:w-[350px] lg:h-[400px] lg:w-[400px] overflow-hidden rounded-full border-4 border-primary">
                 <Image
                   src="/placeholder.svg?height=400&width=400"
-                  alt="John Doe - Full Stack Developer"
+                  alt="Mahabeer - Full Stack Developer"
                   fill
                   className="object-cover"
                   priority

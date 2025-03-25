@@ -10,7 +10,7 @@ export default function Footer() {
     <footer className="border-t bg-background py-6 sm:py-8">
       <div className="container flex flex-col items-center justify-between gap-3 sm:gap-4 px-4 md:flex-row md:px-6">
         <p className="text-center text-xs sm:text-sm text-muted-foreground md:text-left">
-          © {new Date().getFullYear()} John Doe. All rights reserved.
+          © {new Date().getFullYear()} Mahabeer. All rights reserved.
         </p>
         <div className="flex items-center space-x-2 sm:space-x-4">
           <Button variant="ghost" size="icon" asChild className="h-8 w-8 sm:h-9 sm:w-9">
