@@ -40,7 +40,7 @@ export default function Experience() {
         "Making admin panels on React js ( for managing mobile applications",
         "Mentored junior developers and conducted code reviews",
       ],
-      skills: ["Team Leasdership", "React Native", "Tailwind CSS", "SvelteJs"],
+      skills: ["Team Leasdership", "React Native", "TypeScript", "SvelteJs"],
     },
     {
       title: "Front End Developer",
@@ -53,7 +53,14 @@ export default function Experience() {
         "Participated in daily stand-ups and sprint planning meetings",
         "Gained experience with version control and collaborative development",
       ],
-      skills: ["React Native", "React", "JavaScript", "HTML/CSS", "Git"],
+      skills: [
+        "React Native",
+        "React",
+        "JavaScript",
+        "HTML/CSS",
+        "Git",
+        "Tailwind CSS",
+      ],
     },
     {
       title: "Front End developer",
