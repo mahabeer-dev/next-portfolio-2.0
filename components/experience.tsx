@@ -17,8 +17,8 @@ interface ExperienceItem {
 export default function Experience() {
   const experiences: ExperienceItem[] = [
     {
-      title: "Team Manager",
-      company: "Clousor Technologies",
+      title: "Sr. Full Stack Developer",
+      company: "Clousor Technologies Pvt Ltd",
       location: "Remote",
       period: "Dec 2024 - Present",
       description: [

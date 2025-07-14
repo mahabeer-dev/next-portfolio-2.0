@@ -37,7 +37,7 @@ export default function Projects() {
     {
       title: "ClipMe Mobile App",
       description:
-        "A weather dashboard that displays current and forecasted weather data for multiple locations.",
+        "ClipMe is an Android app that enables seamless clipboard synchronization between your mobile device and other devices, such as your desktop browser or another mobile device.",
       image: "/projects/clipme.webp",
       tags: ["React Native", "Firebase", "Firestore", "One Signal"],
       liveUrl:
