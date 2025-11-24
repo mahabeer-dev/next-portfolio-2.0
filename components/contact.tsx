@@ -73,7 +73,7 @@ export default function Contact() {
                 <div>
                   <h3 className="text-base sm:text-lg font-medium">Email</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">
-                    mahabeer@mahabeer.online
+                    mahabeer.fcs.gna@gmail.com
                   </p>
                 </div>
               </div>
