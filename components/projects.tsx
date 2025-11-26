@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLinkIcon } from "lucide-react";
 import { FadeIn, StaggerChildren, StaggerItem } from "./animations";
-import { projects as allProjects, type Project } from "@/lib/projects";
+import { projects as allProjects } from "@/lib/projects";
 import { useMemo, useState } from "react";
 
 type ProjectsProps = {
