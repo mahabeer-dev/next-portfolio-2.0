@@ -4,8 +4,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "./animations";
 import Link from "next/link";
+import { getYearsMonthsSince } from "@/lib/utils";
 
 export default function About() {
+  const { label: experienceLabel } = getYearsMonthsSince(new Date("2022-05-01"));
   return (
     <section
       id="about"
@@ -29,7 +31,7 @@ export default function About() {
             <div className="space-y-4 text-muted-foreground">
               <FadeIn direction="up" delay={0.1}>
                 <p className="text-sm sm:text-base">
-                  With over 3 years of experience in web development, I've
+                  With {experienceLabel} of experience in web development, I've
                   worked on a variety of projects from small business websites
                   to complex enterprise applications. I specialize in React,
                   Next.js, Node.js, SvelteJs and modern web technologies.
