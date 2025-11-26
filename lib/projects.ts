@@ -77,8 +77,17 @@ export const projects: Project[] = [
       "Watch entertaining, AI-powered social media trends on an innovative microblogging platform fully loaded with advanced AI content creation tools in a live AI data ecosystem. ChatMap AI is a dedicated AI-content sharing social platform where users can share AI content, build audience, and earn.",
     image: "/projects/chatmap.webp",
     tags: ["Bubble.io", "Stripe", "CSS"],
-    liveUrl:
-      "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
+    liveUrl: "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
     category: "bubble",
+  },
+  {
+    id: 8,
+    title: "ElloMed",
+    description:
+      "Mobile app developer and web frontend developer for ElloMed, contributing across the React Native app and the Next.js website. Built responsive UI and components using Tailwind CSS.",
+    image: "/projects/ellomed.webp",
+    tags: ["React Native", "Next.js", "Tailwind CSS"],
+    liveUrl: "https://www.ellomed.com/",
+    category: "nextjs",
   },
 ];
