@@ -50,4 +50,35 @@ export const projects: Project[] = [
       "https://play.google.com/store/apps/details?id=com.clipme.extension",
     category: "react-native",
   },
+  {
+    id: 5,
+    title: "Emrit Android App",
+    description:
+      "Worked as a Junior React Native Developer on the Android app for this organization, contributing to features and improvements for a better mobile experience.",
+    image: "/projects/emrit.webp",
+    tags: ["React Native", "Android", "Mobile"],
+    liveUrl: "https://emrit.io/about/",
+    category: "react-native",
+  },
+  {
+    id: 6,
+    title: "Top Notch Security Website",
+    description:
+      "Frontend development for Top Notch Security’s website using SvelteKit, Tailwind CSS, and Strapi CMS.",
+    image: "/projects/topnotch.webp",
+    tags: ["SvelteKit", "Tailwind CSS", "Strapi CMS"],
+    liveUrl: "https://topnotchsecurityinc.com/",
+    category: "sveltekit",
+  },
+  {
+    id: 7,
+    title: "ChatMap AI",
+    description:
+      "Watch entertaining, AI-powered social media trends on an innovative microblogging platform fully loaded with advanced AI content creation tools in a live AI data ecosystem. ChatMap AI is a dedicated AI-content sharing social platform where users can share AI content, build audience, and earn.",
+    image: "/projects/chatmap.webp",
+    tags: ["Bubble.io", "Stripe", "CSS"],
+    liveUrl:
+      "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
+    category: "bubble",
+  },
 ];

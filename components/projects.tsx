@@ -36,7 +36,7 @@ export default function Projects({
         : allProjects.filter((p) => p.category === currentCategory);
 
     // If filter UI is shown, ignore limit entirely for a consistent UX.
-    const shouldLimit = !showCategoryFilter;
+    const shouldLimit = true;
 
     return shouldLimit && typeof limit === "number"
       ? base.slice(0, limit)
