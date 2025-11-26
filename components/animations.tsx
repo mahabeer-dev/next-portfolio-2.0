@@ -58,12 +58,14 @@ export function StaggerChildren({
   className,
   delayIncrement = 0.1,
   initialDelay = 0.1,
+  forceVisible = false,
   ...props
 }: {
   children: React.ReactNode
   className?: string
   delayIncrement?: number
   initialDelay?: number
+  forceVisible?: boolean
   [key: string]: any
 }) {
   const controls = useAnimation()
@@ -71,15 +73,15 @@ export function StaggerChildren({
   const isInView = useInView(ref, { once: true, amount: 0.1 })
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView || forceVisible) {
       controls.start("visible")
     }
-  }, [isInView, controls])
+  }, [isInView, forceVisible, controls])
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
+      initial={forceVisible ? "visible" : "hidden"}
       animate={controls}
       variants={{
         visible: {
@@ -166,4 +168,3 @@ export function AnimatedCounter({
     </span>
   )
 }
-
