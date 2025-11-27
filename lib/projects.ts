@@ -154,4 +154,20 @@ export const projects: Project[] = [
     liveUrl: "https://cultivaid.vercel.app/",
     category: "nextjs",
   },
+  {
+    id: 14,
+    title: "Bonds Relationship App",
+    description:
+      "Relationship coaching app built on Bubble. Integrated OpenAI-driven guidance, Firebase, Google Tag Manager, and Facebook Ad Campaign tracking. Delivered web and Android app experience.",
+    image: "/projects/bonds.webp",
+    tags: [
+      "Bubble.io",
+      "OpenAI API",
+      "Firebase",
+      "Google Tag Manager",
+      "Facebook Ad Campaign",
+    ],
+    liveUrl: "https://www.heybonds.com/",
+    category: "bubble",
+  },
 ];
