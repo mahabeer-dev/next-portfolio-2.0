@@ -144,4 +144,14 @@ export const projects: Project[] = [
     liveUrl: "https://www.sirlekhtv.com/",
     category: "sveltekit",
   },
+  {
+    id: 13,
+    title: "Cultivaid CRM",
+    description:
+      "CRM platform with roles for Super Admin, Agronomist, Farmer, and Student. Shares farming guides, tools, and information with notifications for new crops and training materials. Includes messaging between team members.",
+    image: "/projects/cultivaid.webp",
+    tags: ["Next.js", "MySQL", "Prisma", "NextAuth", "JWT"],
+    liveUrl: "https://cultivaid.vercel.app/",
+    category: "nextjs",
+  },
 ];
