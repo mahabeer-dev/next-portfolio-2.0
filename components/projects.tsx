@@ -94,7 +94,7 @@ export default function Projects({
                 <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                   <div className="relative aspect-video overflow-hidden">
                     <Image
-                      src={project.image || "/placeholder.svg"}
+                      src={project.image || "/pic.webp"}
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-300 hover:scale-105"

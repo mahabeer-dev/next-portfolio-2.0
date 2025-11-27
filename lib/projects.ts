@@ -77,7 +77,8 @@ export const projects: Project[] = [
       "Watch entertaining, AI-powered social media trends on an innovative microblogging platform fully loaded with advanced AI content creation tools in a live AI data ecosystem. ChatMap AI is a dedicated AI-content sharing social platform where users can share AI content, build audience, and earn.",
     image: "/projects/chatmap.webp",
     tags: ["Bubble.io", "Stripe", "CSS"],
-    liveUrl: "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
+    liveUrl:
+      "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
     category: "bubble",
   },
   {
@@ -108,12 +109,39 @@ export const projects: Project[] = [
   },
   {
     id: 10,
-    title: "Akairis Web App",
+    title: "Akairis Web App (Landing)",
     description:
       "Frontend development for the Akairis landing web app using SvelteKit and Tailwind CSS, with data modeled via Prisma and MySQL. Focused on responsive UI and clean component architecture.",
     image: "/projects/akairis.webp",
     tags: ["SvelteKit", "Tailwind CSS", "Prisma", "MySQL"],
     liveUrl: "https://akairis.com/",
+    category: "sveltekit",
+  },
+  {
+    id: 11,
+    title: "Lexium World CRM",
+    description:
+      "Full-stack CRM built with SvelteKit and integrated with n8n for WhatsApp bot automation. Customers register household appliance complaints via WhatsApp; complaints appear in the admin panel where Super Admin creates Sub Admins, and Sub Admins create Team Members and assign complaints. Complaints are tracked with milestones until completion, requiring customer OTP to mark as done.",
+    image: "/projects/lexium.webp",
+    tags: [
+      "SvelteKit",
+      "Prisma",
+      "MySQL",
+      "n8n",
+      "WhatsApp API",
+      "Tailwind CSS",
+    ],
+    liveUrl: "https://lexiumworld.com/",
+    category: "sveltekit",
+  },
+  {
+    id: 12,
+    title: "Sirlekh Website & CRM",
+    description:
+      "Full-stack development for Sirlekh’s website and internal CRM using SvelteKit, Prisma, and MySQL. Implemented responsive UI with Tailwind CSS and Gemini-powered features to assist content and workflows.",
+    image: "/projects/sirlekh.webp",
+    tags: ["SvelteKit", "Prisma", "MySQL", "Tailwind CSS", "Gemini"],
+    liveUrl: "https://www.sirlekhtv.com/",
     category: "sveltekit",
   },
 ];
