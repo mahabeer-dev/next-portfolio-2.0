@@ -120,16 +120,18 @@ export default function Projects({
                       ))}
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      <Button asChild size="sm" className="text-xs h-8">
-                        <Link
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <ExternalLinkIcon className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
-                          Live Demo
-                        </Link>
-                      </Button>
+                      {project.liveUrl && project.liveUrl.trim().length > 0 ? (
+                        <Button asChild size="sm" className="text-xs h-8">
+                          <Link
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLinkIcon className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                            Live Demo
+                          </Link>
+                        </Button>
+                      ) : null}
                     </div>
                   </CardContent>
                 </Card>

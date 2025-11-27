@@ -86,8 +86,34 @@ export const projects: Project[] = [
     description:
       "Mobile app developer and web frontend developer for ElloMed, contributing across the React Native app and the Next.js website. Built responsive UI and components using Tailwind CSS.",
     image: "/projects/ellomed.webp",
-    tags: ["React Native", "Next.js", "Tailwind CSS"],
+    tags: ["React Native", "React.js", "Tailwind CSS"],
     liveUrl: "https://www.ellomed.com/",
-    category: "nextjs",
+    category: "reactJs",
+  },
+  {
+    id: 9,
+    title: "Skylark Logistics Driver App",
+    description:
+      "Android and iOS app for drivers at Skylark (Canada) to manage assigned loads, chat with dispatchers, share media, track location, and view history. Built with React Native, realtime communication, and push notifications.",
+    image: "/projects/skylark.webp",
+    tags: [
+      "React Native",
+      "WebSockets",
+      "Realtime Chat",
+      "One Signal",
+      "Location Tracking",
+    ],
+    liveUrl: "",
+    category: "react-native",
+  },
+  {
+    id: 10,
+    title: "Akairis Web App",
+    description:
+      "Frontend development for the Akairis landing web app using SvelteKit and Tailwind CSS, with data modeled via Prisma and MySQL. Focused on responsive UI and clean component architecture.",
+    image: "/projects/akairis.webp",
+    tags: ["SvelteKit", "Tailwind CSS", "Prisma", "MySQL"],
+    liveUrl: "https://akairis.com/",
+    category: "sveltekit",
   },
 ];
