@@ -3,7 +3,10 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Mahabeer | Full Stack Developer",
     template: "%s | Mahabeer Portfolio",
@@ -20,17 +23,20 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Mahabeer" }],
   creator: "Mahabeer",
+  alternates: {
+    canonical: siteUrl,
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://johndoe-portfolio.com",
+    url: siteUrl,
     title: "Mahabeer | Full Stack Developer",
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
     siteName: "Mahabeer Portfolio",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/pic.webp",
         width: 1200,
         height: 630,
         alt: "Mahabeer Portfolio",
@@ -42,13 +48,12 @@ export const metadata: Metadata = {
     title: "Mahabeer | Full Stack Developer",
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
-    images: ["/og-image.jpg"],
+    images: ["/pic.webp"],
   },
   robots: {
     index: true,
     follow: true,
   },
-  generator: "v0.dev",
 };
 
 export default function RootLayout({
@@ -58,9 +63,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="canonical" href="https://johndoe-portfolio.com" />
-      </head>
+      <head></head>
       <body>
         <ThemeProvider
           attribute="class"
@@ -77,16 +80,16 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Mahabeer",
-              url: "https://johndoe-portfolio.com",
+              url: siteUrl,
               jobTitle: "Full Stack Developer",
               worksFor: {
                 "@type": "Organization",
-                name: "Tech Innovations Inc.",
+                name: "Independent",
               },
               sameAs: [
-                "https://github.com/johndoe",
-                "https://linkedin.com/in/johndoe",
-                "https://twitter.com/johndoe",
+                "https://github.com/mahabeer-dev",
+                "https://www.linkedin.com/in/mahabeer-dev/",
+                "https://x.com/mahabeer_dev",
               ],
               skills: ["React", "Next.js", "TypeScript", "Node.js", "MongoDB"],
             }),
