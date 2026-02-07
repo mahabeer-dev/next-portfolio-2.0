@@ -49,9 +49,6 @@ function CodeSnippet({ text, label }: { text: string; label: string }) {
 }
 
 export default function OpenSource() {
-  const npm = contributions.find((c) => c.type === "npm");
-  const site = contributions.find((c) => c.type === "website");
-
   return (
     <section id="open-source" className="relative py-14 sm:py-18 md:py-22">
       <div className="absolute inset-0 -z-10">
@@ -73,138 +70,156 @@ export default function OpenSource() {
           </div>
         </FadeIn>
 
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-12 gap-6">
-          <motion.div
-            whileHover={{ scale: 1.02, rotate: 0.25 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="md:col-span-7 rounded-2xl border bg-gradient-to-br from-purple-600/10 to-pink-600/10 p-5 sm:p-6"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-600/20 text-purple-600">
-                <Package className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg sm:text-xl font-semibold">{npm?.title ?? "NPM Package"}</h3>
-                <div className="flex flex-wrap items-center gap-2 mt-1">
-                  <Badge variant="secondary" className="text-[10px]">TypeScript</Badge>
-                  <Badge variant="secondary" className="text-[10px]">MIT</Badge>
-                  <Badge variant="secondary" className="text-[10px]">React Native</Badge>
-                  <Badge variant="secondary" className="text-[10px]">
-                    <Star className="mr-1 h-3 w-3" /> Published ~8 months ago
-                  </Badge>
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {contributions.map((item) => (
+            <motion.div
+              key={item.id}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className={`rounded-2xl border p-5 sm:p-6 ${
+                item.type === "npm"
+                  ? "bg-gradient-to-br from-purple-600/10 to-pink-600/10"
+                  : "bg-gradient-to-br from-sky-600/10 to-cyan-600/10"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className={`flex h-10 w-10 items-center justify-center rounded-lg ${
+                    item.type === "npm"
+                      ? "bg-purple-600/20 text-purple-600"
+                      : "bg-sky-600/20 text-sky-600"
+                  }`}
+                >
+                  {item.type === "npm" ? (
+                    <Package className="h-5 w-5" />
+                  ) : (
+                    <Globe className="h-5 w-5" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-semibold">
+                    {item.title}
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-2 mt-1">
+                    {item.tags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="secondary"
+                        className="text-[10px]"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <p className="mt-4 text-sm sm:text-base text-muted-foreground">
-              {npm?.description ?? "Reusable, customizable components to build beautiful mobile UIs."}
-            </p>
+              <p className="mt-4 text-sm sm:text-base text-muted-foreground">
+                {item.description}
+              </p>
 
-            <div className="mt-5 grid gap-4">
-              <CodeSnippet text="npm i react-native-ui-house" label="Install" />
-              <CodeSnippet
-                text={`import { Avatar } from "react-native-ui-house"\n\n<Avatar name="Mahabeer" imageUrl="https://example.com/image.jpg" />`}
-                label="Usage"
-              />
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Button asChild>
-                <Link href={npm?.url ?? "https://www.npmjs.com"} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" /> View on npm
-                </Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href={npm?.url ?? "https://www.npmjs.com"} target="_blank" rel="noopener noreferrer">
-                  <Code2 className="mr-2 h-4 w-4" /> Docs
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.02, rotate: -0.25 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="md:col-span-5 rounded-2xl border bg-gradient-to-br from-sky-600/10 to-cyan-600/10 p-5 sm:p-6"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-600/20 text-sky-600">
-                <Globe className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg sm:text-xl font-semibold">{site?.title ?? "Widgets Site"}</h3>
-                <div className="flex flex-wrap items-center gap-2 mt-1">
-                  <Badge variant="secondary" className="text-[10px]">Next.js</Badge>
-                  <Badge variant="secondary" className="text-[10px]">React</Badge>
-                  <Badge variant="secondary" className="text-[10px]">
-                    <ShieldCheck className="mr-1 h-3 w-3" /> Open Source
-                  </Badge>
+              {item.type === "npm" && (
+                <div className="mt-5 grid gap-4">
+                  {item.installCommand && (
+                    <CodeSnippet text={item.installCommand} label="Install" />
+                  )}
+                  {item.usageCode && (
+                    <CodeSnippet text={item.usageCode} label="Usage" />
+                  )}
                 </div>
-              </div>
-            </div>
+              )}
 
-            <p className="mt-4 text-sm sm:text-base text-muted-foreground">
-              {site?.description ?? "Reusable components and widgets to speed up web UI development."}
-            </p>
+              {item.type === "website" && item.features && (
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  {item.features.map((feature) => (
+                    <div
+                      key={feature}
+                      className="rounded-xl border bg-background/60 p-4"
+                    >
+                      <div className="text-xs text-muted-foreground">
+                        Component
+                      </div>
+                      <div className="mt-2 text-sm font-medium">{feature}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-xl border bg-background/60 p-4">
-                <div className="text-xs text-muted-foreground">Component</div>
-                <div className="mt-2 text-sm font-medium">Card</div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {item.type === "npm" ? (
+                  <>
+                    <Button asChild>
+                      <Link
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" /> View on npm
+                      </Link>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <Link
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Code2 className="mr-2 h-4 w-4" /> Docs
+                      </Link>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button asChild>
+                      <Link
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" /> Explore
+                        Widgets
+                      </Link>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <Link
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Globe className="mr-2 h-4 w-4" /> Visit Site
+                      </Link>
+                    </Button>
+                  </>
+                )}
               </div>
-              <div className="rounded-xl border bg-background/60 p-4">
-                <div className="text-xs text-muted-foreground">Component</div>
-                <div className="mt-2 text-sm font-medium">Modal</div>
-              </div>
-              <div className="rounded-xl border bg-background/60 p-4">
-                <div className="text-xs text-muted-foreground">Component</div>
-                <div className="mt-2 text-sm font-medium">Table</div>
-              </div>
-              <div className="rounded-xl border bg-background/60 p-4">
-                <div className="text-xs text-muted-foreground">Component</div>
-                <div className="mt-2 text-sm font-medium">Button</div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Button asChild>
-                <Link href={site?.url ?? "#"} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" /> Explore Widgets
-                </Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href={site?.url ?? "#"} target="_blank" rel="noopener noreferrer">
-                  <Globe className="mr-2 h-4 w-4" /> Visit Site
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
-
-       
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "SoftwareSourceCode",
-                  name: npm?.title ?? "react-native-ui-house",
-                  description: npm?.description ?? "React Native UI components",
-                  url: npm?.url ?? "https://www.npmjs.com/package/react-native-ui-house",
-                  programmingLanguage: "TypeScript",
-                  license: "MIT",
-                  creator: { "@type": "Person", name: "Mahabeer" },
-                },
-                {
-                  "@type": "WebSite",
-                  name: site?.title ?? "Widgets for Next.js & React",
-                  url: site?.url ?? "https://widgets.mahabeer.online",
-                  description: site?.description ?? "Open-source components for web UIs",
-                },
-              ],
+              "@graph": contributions.map((c) => {
+                if (c.type === "npm") {
+                  return {
+                    "@type": "SoftwareSourceCode",
+                    name: c.title,
+                    description: c.description,
+                    url: c.url,
+                    programmingLanguage: "TypeScript",
+                    license: "MIT",
+                    creator: { "@type": "Person", name: "Mahabeer" },
+                  };
+                } else {
+                  return {
+                    "@type": "WebSite",
+                    name: c.title,
+                    url: c.url,
+                    description: c.description,
+                  };
+                }
+              }),
             }),
           }}
         />

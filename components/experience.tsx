@@ -17,6 +17,26 @@ interface ExperienceItem {
 export default function Experience() {
   const experiences: ExperienceItem[] = [
     {
+      title: "Software Engineer",
+      company: "Indi IT Solutions",
+      location: "Mohali",
+      period: "Dec 2025 - Present",
+      description: [
+        "Developing and maintaining full-stack applications using React.js, React Native, Node.js, Express, and MongoDB.",
+        "Designing and optimizing RESTful APIs and backend services with Node.js and Express.",
+        "Collaborating on database design and performance optimization using MongoDB and MySQL.",
+        "Continuously upskilling in AI/ML concepts to align with future project requirements.",
+      ],
+      skills: [
+        "React Native",
+        "ReactJs",
+        "Express",
+        "NodeJs",
+        "MongoDb",
+        "Mysql",
+      ],
+    },
+    {
       title: "Sr. Full Stack Developer",
       company: "Clousor Technologies Pvt Ltd",
       location: "Remote",
