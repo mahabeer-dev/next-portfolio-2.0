@@ -12,19 +12,34 @@ export const metadata: Metadata = {
     template: "%s | Mahabeer Portfolio",
   },
   description:
-    "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
+    "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies. Explore my projects, open source contributions, and skills.",
   keywords: [
-    "developer",
-    "full stack",
-    "react",
-    "next.js",
-    "portfolio",
-    "web development",
+    "Mahabeer",
+    "Full Stack Developer",
+    "React Developer",
+    "Next.js Developer",
+    "TypeScript",
+    "React Native",
+    "Web Development",
+    "Software Engineer",
+    "UI/UX Design",
+    "Open Source",
+    "JavaScript",
+    "Tailwind CSS",
   ],
-  authors: [{ name: "Mahabeer" }],
+  authors: [{ name: "Mahabeer", url: siteUrl }],
   creator: "Mahabeer",
+  publisher: "Mahabeer",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   alternates: {
     canonical: siteUrl,
+    languages: {
+      "en-US": "/en-US",
+    },
   },
   openGraph: {
     type: "website",
@@ -49,11 +64,28 @@ export const metadata: Metadata = {
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
     images: ["/pic.webp"],
+    creator: "@mahabeer_dev",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
+  icons: {
+    icon: "/pic.webp",
+    shortcut: "/pic.webp",
+    apple: "/pic.webp",
+  },
+  verification: {
+    google: "google-site-verification=YOUR_CODE_HERE",
+  },
+  category: "technology",
 };
 
 export default function RootLayout({
