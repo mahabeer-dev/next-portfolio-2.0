@@ -42,7 +42,7 @@ const post: BlogPost = {
     },
     {
       type: "paragraph",
-      text: "Navigate to the Firebase Console at console.firebase.google.com and sign in with your Google account. From the dashboard, select the project you want to add your Android app to. If you have multiple projects, make sure you're selecting the correct one.",
+      text: "Navigate to the [Firebase Console](https://console.firebase.google.com/) and sign in with your Google account. From the dashboard, select the project you want to add your Android app to. If you have multiple projects, make sure you're selecting the correct one.",
     },
     {
       type: "image",
@@ -57,7 +57,7 @@ const post: BlogPost = {
     },
     {
       type: "paragraph",
-      text: 'Once inside your project, open the Project Overview tab from the left sidebar. Click the "Add app" button (or the Android icon if this is your first app). This will launch the setup wizard for registering a new Android app with Firebase.',
+      text: 'Once inside your project, open the ==Project Overview== tab from the left sidebar. Click the =="Add app"== button (or the Android icon if this is your first app). This will launch the setup wizard for registering a new Android app with Firebase.',
     },
     {
       type: "image",
@@ -100,7 +100,7 @@ const post: BlogPost = {
     },
     {
       type: "paragraph",
-      text: 'Click "Register app" to proceed to the next step.',
+      text: 'Click =="Register app"== to proceed to the next step.',
     },
 
     {
@@ -109,7 +109,7 @@ const post: BlogPost = {
     },
     {
       type: "paragraph",
-      text: 'After registering, Firebase will generate a google-services.json configuration file for your app. Click the "Download google-services.json" button and place the downloaded file in the following location in your React Native project:',
+      text: 'After registering, Firebase will generate a ==google-services.json== configuration file for your app. Click the =="Download google-services.json"== button and place the downloaded file in the following location in your React Native project:',
     },
     {
       type: "code",
@@ -118,7 +118,7 @@ const post: BlogPost = {
     },
     {
       type: "paragraph",
-      text: "This file contains your Firebase project's configuration — API keys, project ID, app ID, and other identifiers. It's essential for the Firebase SDK to know which Firebase project your app belongs to. Do NOT commit this file to a public repository as it contains your API keys.",
+      text: "This file contains your Firebase project's configuration — API keys, project ID, app ID, and other identifiers. It's essential for the Firebase SDK to know which Firebase project your app belongs to. ==Do NOT commit this file to a public repository== as it contains your API keys.",
     },
     {
       type: "image",
@@ -261,7 +261,7 @@ const post: BlogPost = {
     },
     {
       type: "paragraph",
-      text: "The versions used in this guide (Google Services plugin 4.4.2, Firebase BoM 34.7.0) are the latest available at the time of publishing. Firebase regularly releases updates with new features, bug fixes, and security patches. Before adding these to your project, always verify the latest versions from the official Firebase documentation to ensure compatibility.",
+      text: "The versions used in this guide (Google Services plugin ==4.4.2==, Firebase BoM ==34.7.0==) are the latest available at the time of publishing. Firebase regularly releases updates with new features, bug fixes, and security patches. Before adding these to your project, always verify the latest versions from the [official Firebase documentation](https://firebase.google.com/docs/android/setup) to ensure compatibility.",
     },
 
     {
@@ -270,7 +270,7 @@ const post: BlogPost = {
     },
     {
       type: "paragraph",
-      text: "Now that Firebase is connected to your Android app, here are common next steps depending on what you're building: set up Firebase Cloud Messaging for push notifications (you'll need an APNs key if you're also targeting iOS), integrate Firebase Authentication for login flows, add Crashlytics for real-time crash reporting, or enable Analytics to track user engagement. Each Firebase service has its own React Native library — check out @react-native-firebase for well-maintained, community-driven packages.",
+      text: "Now that Firebase is connected to your Android app, here are common next steps depending on what you're building: set up ==Firebase Cloud Messaging== for push notifications (you'll need an [APNs key](/blogs/generate-apns-key-ios-push-notifications) if you're also targeting iOS), integrate ==Firebase Authentication== for login flows, add ==Crashlytics== for real-time crash reporting, or enable ==Analytics== to track user engagement. Each Firebase service has its own React Native library — check out [@react-native-firebase](https://rnfirebase.io/) for well-maintained, community-driven packages.",
     },
   ],
 };

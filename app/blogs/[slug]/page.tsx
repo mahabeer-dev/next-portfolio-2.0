@@ -6,6 +6,56 @@ import { Button } from "@/components/ui/button"
 import { blogs, getBlogBySlug } from "@/lib/blogs"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
+
+/**
+ * Parses inline markup in blog text:
+ *   ==text==  → highlighted <mark>
+ *   [text](url) → <a> opening in new tab
+ */
+function RichText({ text }: { text: string }): ReactNode {
+  const parts: ReactNode[] = []
+  const regex = /==(.+?)==|\[(.+?)\]\((.+?)\)/g
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index))
+    }
+
+    if (match[1]) {
+      parts.push(
+        <mark
+          key={match.index}
+          className="bg-orange-500/15 text-foreground px-1 py-0.5 rounded"
+        >
+          {match[1]}
+        </mark>
+      )
+    } else if (match[2] && match[3]) {
+      parts.push(
+        <a
+          key={match.index}
+          href={match[3]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-orange-500 underline underline-offset-2 hover:text-orange-400 transition-colors"
+        >
+          {match[2]}
+        </a>
+      )
+    }
+
+    lastIndex = match.index + match[0].length
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex))
+  }
+
+  return <>{parts}</>
+}
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -108,7 +158,7 @@ export default async function BlogPostPage({ params }: Props) {
                     key={i}
                     className="text-xl sm:text-2xl font-bold tracking-tight mt-10 first:mt-0"
                   >
-                    {block.text}
+                    <RichText text={block.text} />
                   </h2>
                 )
               case "paragraph":
@@ -117,7 +167,7 @@ export default async function BlogPostPage({ params }: Props) {
                     key={i}
                     className="text-sm sm:text-base text-muted-foreground leading-relaxed"
                   >
-                    {block.text}
+                    <RichText text={block.text} />
                   </p>
                 )
               case "code":
