@@ -25,6 +25,12 @@ const post: BlogPost = {
       text: "Most database GUIs are either too bloated, paid, or limited to a single database engine. As someone juggling MySQL and MongoDB across multiple projects, I needed a unified interface that could auto-detect the database, display schemas visually, and let me browse data — all from the terminal with zero config.",
     },
     {
+      type: "image",
+      src: "/blogs/building-database-studio/architecture.webp",
+      alt: "Database Studio architecture overview",
+      caption: "High-level architecture of Database Studio",
+    },
+    {
       type: "heading",
       text: "Architecture & Design Decisions",
     },

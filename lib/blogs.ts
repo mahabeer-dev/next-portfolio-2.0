@@ -2,6 +2,7 @@ export type ContentBlock =
   | { type: "paragraph"; text: string }
   | { type: "heading"; text: string }
   | { type: "code"; language: string; text: string }
+  | { type: "image"; src: string; alt: string; caption?: string; width?: number; height?: number }
 
 export type BlogPost = {
   id: number

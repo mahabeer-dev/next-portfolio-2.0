@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -82,6 +83,20 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
 
           <div className="mt-6 border-b" />
+
+          {post.coverImage && (
+            <div className="mt-6 overflow-hidden rounded-xl border">
+              <Image
+                src={post.coverImage}
+                alt={post.title}
+                width={1200}
+                height={630}
+                className="w-full h-auto object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 768px"
+              />
+            </div>
+          )}
         </header>
 
         <div className="mt-8 space-y-6">
@@ -123,6 +138,27 @@ export default async function BlogPostPage({ params }: Props) {
                       <code>{block.text}</code>
                     </pre>
                   </div>
+                )
+              case "image":
+                return (
+                  <figure key={i} className="my-8">
+                    <div className="overflow-hidden rounded-xl border">
+                      <Image
+                        src={block.src}
+                        alt={block.alt}
+                        width={block.width ?? 1200}
+                        height={block.height ?? 675}
+                        className="w-full h-auto object-cover"
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 768px"
+                      />
+                    </div>
+                    {block.caption && (
+                      <figcaption className="mt-2 text-center text-xs text-muted-foreground">
+                        {block.caption}
+                      </figcaption>
+                    )}
+                  </figure>
                 )
               default:
                 return null
