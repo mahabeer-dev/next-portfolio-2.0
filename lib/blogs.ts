@@ -25,7 +25,9 @@ export type BlogPost = {
   content?: ContentBlock[];
 };
 
-export const blogs: BlogPost[] = [];
+import generateApnsKey from "@/content/blogs/generate-apns-key-ios-push-notifications";
+
+export const blogs: BlogPost[] = [generateApnsKey];
 
 export const BLOGS_PER_PAGE = 4;
 
