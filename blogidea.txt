@@ -1,0 +1,356 @@
+# End-to-End: Enable Firebase Crashlytics (React Native)
+
+This guide enables Firebase Crashlytics in a React Native app **when Firebase is already added** (e.g. you have `google-services.json`, `GoogleService-Info.plist`, and `@react-native-firebase/app` working).
+
+---
+
+## 1. Install the package
+
+```bash
+yarn add @react-native-firebase/crashlytics
+# or
+npm install @react-native-firebase/crashlytics
+```
+
+---
+
+## 2. Android setup
+
+### 2.1 Root `build.gradle`
+
+**File:** `android/build.gradle`
+
+Add the Crashlytics Gradle plugin classpath inside `buildscript.dependencies`:
+
+```gradle
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // ... your existing classpaths (e.g. gradle, react-native, kotlin)
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.2")
+        classpath("com.google.gms:google-services:4.4.2")
+    }
+}
+```
+
+### 2.2 App-level `build.gradle`
+
+**File:** `android/app/build.gradle`
+
+**A) Apply the plugin** (near the top, after other apply plugin lines):
+
+```gradle
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+apply plugin: "com.google.firebase.crashlytics"
+apply plugin: "com.google.gms.google-services"
+```
+
+**B) Enable mapping upload for release** (inside `android { buildTypes { release { ... } } }`):
+
+```gradle
+buildTypes {
+    release {
+        // ... signingConfig, minifyEnabled, proguardFiles, etc.
+        firebaseCrashlytics {
+            mappingFileUploadEnabled true
+        }
+    }
+}
+```
+
+**C) Add Crashlytics dependency** (inside `dependencies { }`):
+
+```gradle
+// Firebase BoM (if not already present)
+implementation platform('com.google.firebase:firebase-bom:34.7.0')
+
+// Firebase Crashlytics
+implementation 'com.google.firebase:firebase-crashlytics'
+```
+
+Then run:
+
+```bash
+cd android && ./gradlew clean
+```
+
+---
+
+## 3. iOS setup
+
+Crashlytics is pulled in by React Native Firebase via CocoaPods. Just install pods:
+
+```bash
+cd ios && pod install && cd ..
+```
+
+The **"[CP-User] [RNFB] Crashlytics Configuration"** build phase (upload dSYMs) is added automatically by the RNFB pod. No extra Xcode steps required if Firebase is already set up.
+
+---
+
+## 4. App entry: enable collection and first log
+
+**File:** `App.tsx` (root of project)
+
+Import and enable Crashlytics in production, and log a startup message:
+
+```tsx
+import {
+  getCrashlytics,
+  setCrashlyticsCollectionEnabled,
+  log,
+} from '@react-native-firebase/crashlytics';
+
+const crashlytics = getCrashlytics();
+
+const App = () => {
+  useEffect(() => {
+    // Only collect in production
+    setCrashlyticsCollectionEnabled(crashlytics, !__DEV__);
+    log(crashlytics, 'App started');
+
+    // ... rest of your effect
+  }, []);
+
+  return (
+    // ...
+  );
+};
+```
+
+---
+
+## 5. Optional: Crashlytics service (wrapper)
+
+Centralizes Crashlytics calls so you can log, set user, and record errors from anywhere.
+
+### 5.1 Service implementation
+
+**File:** `src/services/crashlytics/crashlyticsService.ts`
+
+```ts
+import crashlytics from '@react-native-firebase/crashlytics';
+
+export default {
+  log: (msg: string) => crashlytics().log(msg),
+  recordError: (err: Error) => crashlytics().recordError(err),
+  setUserId: (id: string) => crashlytics().setUserId(id),
+  clearUser: () => crashlytics().setUserId(''),
+  setAttributes: (attrs: Record<string, string>) =>
+    crashlytics().setAttributes(attrs),
+  setAttribute: (key: string, value: string) =>
+    crashlytics().setAttribute(key, value),
+};
+```
+
+### 5.2 Barrel export
+
+**File:** `src/services/crashlytics/index.ts`
+
+```ts
+export * from './crashlyticsService';
+export { default } from './crashlyticsService';
+```
+
+### 5.3 Export from services index (if you have one)
+
+**File:** `src/services/index.ts`
+
+```ts
+export * from './crashlytics';
+// ... other exports
+```
+
+---
+
+## 6. Optional: React Error Boundary → Crashlytics
+
+Send React render errors to Crashlytics so they appear in the Firebase console.
+
+**File:** `src/components/ErrorBoundary.tsx`
+
+```tsx
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { View, StyleSheet } from 'react-native';
+import crashlyticsService from '../services/crashlytics';
+import { RNText } from './Text';
+import { RNButton } from './Button';
+
+interface Props {
+  children: ReactNode;
+  fallback?: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class ErrorBoundary extends Component<Props, State> {
+  state: State = {
+    hasError: false,
+    error: null,
+  };
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    if (!__DEV__) {
+      crashlyticsService.log(`React ErrorBoundary: ${error.message}`);
+      crashlyticsService.setAttribute(
+        'componentStack',
+        (errorInfo.componentStack || '').slice(0, 1000),
+      );
+      crashlyticsService.recordError(error);
+    }
+    if (__DEV__) {
+      console.error('ErrorBoundary caught an error:', error, errorInfo);
+    }
+  }
+
+  handleReset = (): void => {
+    this.setState({ hasError: false, error: null });
+  };
+
+  render(): ReactNode {
+    if (this.state.hasError) {
+      if (this.props.fallback) return this.props.fallback;
+      return (
+        <View style={styles.container}>
+          <View style={styles.content}>
+            <RNText size="large" font="bold" textColor="#000">
+              Oops! Something went wrong
+            </RNText>
+            <RNText size="medium" textColor="#666" style={styles.message}>
+              {this.state.error?.message || 'An unexpected error occurred'}
+            </RNText>
+            <RNButton
+              containerStyle={styles.btnStyle}
+              title="Back To Home"
+              onPress={this.handleReset}
+            />
+          </View>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+  },
+  content: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  message: {
+    marginTop: 16,
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  btnStyle: {
+    minWidth: '70%',
+  },
+});
+
+export default ErrorBoundary;
+```
+
+Wrap your app (or a large subtree) in `App.tsx`:
+
+```tsx
+import { ErrorBoundary } from './src/components';
+
+const App = () => (
+  <ErrorBoundary>
+    {/* rest of app */}
+  </ErrorBoundary>
+);
+```
+
+---
+
+## 7. Optional: Set user ID after login
+
+Helps identify which user was affected when viewing crashes in Firebase Console.
+
+After successful login (e.g. in auth flow or root navigator):
+
+```ts
+import crashlyticsService from './src/services/crashlytics';
+
+// After login
+crashlyticsService.setUserId(user.id);
+
+// On logout
+crashlyticsService.clearUser();
+```
+
+---
+
+## 8. Manual log / record error (anywhere in app)
+
+```ts
+import crashlyticsService from './src/services/crashlytics';
+
+// Breadcrumb log (shows in crash report)
+crashlyticsService.log('User opened TaskDetail screen');
+
+// Custom key for last screen
+crashlyticsService.setAttribute('lastScreen', 'TaskDetail');
+
+// Record a non-fatal error
+try {
+  // ...
+} catch (e) {
+  crashlyticsService.recordError(e instanceof Error ? e : new Error(String(e)));
+}
+```
+
+---
+
+## 9. File locations summary
+
+| Purpose                    | File path |
+|---------------------------|-----------|
+| Root Gradle (classpath)   | `android/build.gradle` |
+| App Gradle (plugin + deps)| `android/app/build.gradle` |
+| iOS pods                  | `ios/Podfile` (no change; RNFB adds Crashlytics) |
+| App entry (enable + log)  | `App.tsx` |
+| Crashlytics service       | `src/services/crashlytics/crashlyticsService.ts` |
+| Service export            | `src/services/crashlytics/index.ts` |
+| Error boundary            | `src/components/ErrorBoundary.tsx` |
+
+---
+
+## 10. Verify
+
+1. **Android:** Build release (or at least run once), trigger a test crash (e.g. `crashlytics().crash()` in a button handler), then open **Firebase Console → Crashlytics**. Events can take a few minutes to appear.
+2. **iOS:** Same: run the app, trigger a test crash, check Crashlytics in Firebase.
+3. Ensure **Debug** builds do not send data if you use `setCrashlyticsCollectionEnabled(crashlytics, !__DEV__)` so you only see production (or release) crashes in the dashboard.
+
+---
+
+## 11. Test crash (development only)
+
+```ts
+import crashlytics from '@react-native-firebase/crashlytics';
+
+// Call this from a button to force a crash
+crashlytics().crash();
+```
+
+Remove or guard with `__DEV__` before release.
