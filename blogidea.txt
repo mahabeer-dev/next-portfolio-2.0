@@ -1,56 +1,65 @@
-how to register android app with firebase - this guide will follow the REACT native ecosystem
+how to register ios app with firebase
 
-open firebase at https://console.firebase.google.com/
-select the project you wanna add android app into [see here how to create firebase project]
+all steps from android blogs
+
+till select app to add
+
+click on ios icon 
 [image]
 
-open the project overview tab from sidebar and click on add app
-it will show platform -> choose android
-[image]
-
-under Add Firebase to your Android app
 step 1
-    Android package name
-   you can find your package name for android in 'MainActvoty.kt' file of your peojct
+fill apple bundle id
 
-optionally give nick name to ypur app(helpfull if adding multiple android app under same project)App nickname (optional)
+how to find
+open your project in xcode -> select your app folder from left sidebar
 
-[image]
+under the targets select your app <  don;t seleetc .test app>
 
-donwload the oogle-services.json file and place it under root>android>app
-[image]
+select signing and capabilities tab from tab bar
 
-
-in your android project open root>android>build.gradle or build.gradle.kts
-[image]
-
-
-under the dependencies block
-add the following line
-        classpath("com.google.gms:google-services:4.4.2")
+under the signing section expand ios and you will see bundle identifier for your app
 [image]
 
 
-open root>android>app>build.gradle
-at the very top of the file add the folliwng line
-apply plugin: "com.google.gms.google-services"
+add optional App nickname (optional)
+
+and app store id and click register[image]
+
+
+download GoogleService-Info.plist  and click next
+
+now add this file to your project
+open your project in xcode
+from left sidebar right click on the main folder and in the menu click on  add files to "your project name"
+select the downloaded file and 
+click on finish
 [image]
 
-in the same file under the dependencies block add the following line
-   // 🔥 Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:34.7.0')
 
-now back to firebase
-click on continue to console
+open root>ios>yourproject>appDelegate.swift
 
+add the following lines
 
-rebuid the app if the app complied without any error congratulations your fiebase is added for android and  you are ready to use any firebase services
+import UIKit
+import FirebaseCore
 
 
-Note ->  verify the versions from the firebase, this guide is created by latest versions availabele at the time of publishing
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
+  var window: UIWindow?
 
+  func application(_ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions:
+      [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    FirebaseApp.configure()
 
+    return true
+  }
+}
+
+continue to console
+[image]
 
 
 

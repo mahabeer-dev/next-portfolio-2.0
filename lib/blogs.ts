@@ -27,8 +27,9 @@ export type BlogPost = {
 
 import generateApnsKey from "@/content/blogs/generate-apns-key-ios-push-notifications";
 import registerAndroidFirebase from "@/content/blogs/register-android-app-firebase-react-native";
+import registerIosFirebase from "@/content/blogs/register-ios-app-firebase-react-native";
 
-export const blogs: BlogPost[] = [registerAndroidFirebase, generateApnsKey];
+export const blogs: BlogPost[] = [registerIosFirebase, registerAndroidFirebase, generateApnsKey];
 
 export const BLOGS_PER_PAGE = 4;
 
