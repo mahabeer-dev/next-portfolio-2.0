@@ -1,28 +1,37 @@
-export type Blog = {
+export type ContentBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "heading"; text: string }
+  | { type: "code"; language: string; text: string }
+
+export type BlogPost = {
   id: number
+  slug: string
   title: string
   excerpt: string
   date: string
   readTime: string
   tags: string[]
-  url: string
   platform: "medium" | "devto" | "hashnode" | "personal"
+  coverImage?: string
+  url?: string
+  content?: ContentBlock[]
 }
 
-export const blogs: Blog[] = [
-  // Add your blog posts here. Example:
-  // {
-  //   id: 1,
-  //   title: "Building a Database Explorer with React & Express",
-  //   excerpt: "How I built Database Studio — a full-stack tool to visualize MySQL and MongoDB schemas...",
-  //   date: "2026-03-01",
-  //   readTime: "8 min read",
-  //   tags: ["React", "Express", "MySQL", "MongoDB"],
-  //   url: "https://medium.com/@your-handle/your-post",
-  //   platform: "medium",
-  // },
-]
+import buildingDatabaseStudio from "@/content/blogs/building-database-studio"
+
+export const blogs: BlogPost[] = [buildingDatabaseStudio]
 
 export const BLOGS_PER_PAGE = 4
 
-export const blogListUrl = ""
+export function getBlogBySlug(slug: string): BlogPost | undefined {
+  return blogs.find((b) => b.slug === slug)
+}
+
+export function getBlogUrl(blog: BlogPost): string {
+  if (blog.platform !== "personal" && blog.url) return blog.url
+  return `/blogs/${blog.slug}`
+}
+
+export function isExternalBlog(blog: BlogPost): boolean {
+  return blog.platform !== "personal" && !!blog.url
+}
