@@ -4,6 +4,7 @@ import Skills from "@/components/skills"
 import Experience from "@/components/experience"
 import Projects from "@/components/projects"
 import OpenSource from "@/components/open-source"
+import Products from "@/components/products"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 
@@ -42,6 +43,7 @@ export default function Home() {
       <Experience />
       <Projects />
       <OpenSource />
+      <Products />
       <Contact />
       <Footer />
       <script
