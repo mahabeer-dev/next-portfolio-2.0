@@ -44,3 +44,16 @@ export function getBlogUrl(blog: BlogPost): string {
 export function isExternalBlog(blog: BlogPost): boolean {
   return blog.platform !== "personal" && !!blog.url;
 }
+
+export function getRelatedBlogs(current: BlogPost, limit = 2): BlogPost[] {
+  return blogs
+    .filter((b) => b.slug !== current.slug)
+    .map((b) => ({
+      blog: b,
+      score: b.tags.filter((t) => current.tags.includes(t)).length,
+    }))
+    .filter((r) => r.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((r) => r.blog);
+}

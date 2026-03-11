@@ -3,7 +3,7 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { blogs, getBlogBySlug } from "@/lib/blogs"
+import { blogs, getBlogBySlug, getRelatedBlogs, getBlogUrl, isExternalBlog } from "@/lib/blogs"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
@@ -258,7 +258,76 @@ export default async function BlogPostPage({ params }: Props) {
           })}
         </div>
 
-        <div className="mt-12 border-t pt-8">
+        {(() => {
+          const related = getRelatedBlogs(post)
+          if (related.length === 0) return null
+          return (
+            <div className="mt-14 border-t pt-10">
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight mb-5">
+                Related Articles
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {related.map((r) => {
+                  const href = getBlogUrl(r)
+                  const external = isExternalBlog(r)
+                  const card = (
+                    <div className="group rounded-xl border bg-gradient-to-br from-orange-600/5 to-rose-600/5 p-4 sm:p-5 hover:border-orange-500/30 transition-colors h-full flex flex-col">
+                      {r.coverImage && (
+                        <div className="overflow-hidden rounded-lg border mb-3">
+                          <Image
+                            src={r.coverImage}
+                            alt={r.title}
+                            width={600}
+                            height={315}
+                            className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                            sizes="(max-width: 640px) 100vw, 50vw"
+                          />
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge className="text-[10px] capitalize bg-orange-600/20 text-orange-600 dark:text-orange-400">
+                          {r.platform}
+                        </Badge>
+                        <span className="text-[11px] text-muted-foreground flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {formatDate(r.date)}
+                        </span>
+                      </div>
+                      <h4 className="text-sm sm:text-base font-semibold leading-snug group-hover:text-orange-500 transition-colors line-clamp-2">
+                        {r.title}
+                      </h4>
+                      <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2 flex-1">
+                        {r.excerpt}
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-1">
+                        {r.tags.slice(0, 3).map((t) => (
+                          <Badge key={t} variant="outline" className="text-[9px]">
+                            {t}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                  if (external) {
+                    return (
+                      <a key={r.id} href={href} target="_blank" rel="noopener noreferrer">
+                        {card}
+                      </a>
+                    )
+                  }
+                  return (
+                    <Link key={r.id} href={href}>
+                      {card}
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })()}
+
+        <div className="mt-10 border-t pt-8">
           <Button variant="outline" asChild>
             <Link href="/blogs">
               <ArrowLeft className="mr-2 h-4 w-4" />
