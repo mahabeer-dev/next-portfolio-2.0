@@ -65,19 +65,61 @@ export async function generateStaticParams() {
     .map((b) => ({ slug: b.slug }))
 }
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = getBlogBySlug(slug)
   if (!post) return {}
+
+  const blogUrl = `${siteUrl}/blogs/${post.slug}`
+  const ogImage = post.coverImage ?? "/pic.webp"
+
   return {
     title: post.title,
     description: post.excerpt,
+    keywords: post.tags,
+    authors: [{ name: "Mahabeer", url: siteUrl }],
+    creator: "Mahabeer",
+    publisher: "Mahabeer",
+    alternates: {
+      canonical: blogUrl,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: "article",
+      url: blogUrl,
       publishedTime: post.date,
+      authors: ["Mahabeer"],
       tags: post.tags,
+      siteName: "Mahabeer Portfolio",
+      locale: "en_US",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [ogImage],
+      creator: "@mahabeer_dev",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   }
 }
@@ -224,6 +266,39 @@ export default async function BlogPostPage({ params }: Props) {
             </Link>
           </Button>
         </div>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: post.title,
+              description: post.excerpt,
+              image: post.coverImage ?? "/pic.webp",
+              datePublished: post.date,
+              dateModified: post.date,
+              author: {
+                "@type": "Person",
+                name: "Mahabeer",
+                url: siteUrl,
+              },
+              publisher: {
+                "@type": "Person",
+                name: "Mahabeer",
+                url: siteUrl,
+              },
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `${siteUrl}/blogs/${post.slug}`,
+              },
+              keywords: post.tags.join(", "),
+              wordCount: post.content
+                ?.filter((b) => b.type === "paragraph")
+                .reduce((sum, b) => sum + b.text.split(/\s+/).length, 0),
+            }),
+          }}
+        />
       </article>
     </main>
   )

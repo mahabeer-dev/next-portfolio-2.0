@@ -5,9 +5,62 @@ import { blogs, getBlogUrl, isExternalBlog } from "@/lib/blogs"
 import { Calendar, Clock, ArrowLeft, ExternalLink, ArrowRight } from "lucide-react"
 import type { Metadata } from "next"
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+
 export const metadata: Metadata = {
   title: "Blogs",
-  description: "Articles, tutorials, and dev notes by Mahabeer.",
+  description:
+    "Articles, tutorials, and dev notes on React, React Native, Firebase, iOS, Android, and full-stack development by Mahabeer.",
+  keywords: [
+    "blog",
+    "tutorials",
+    "React",
+    "React Native",
+    "Firebase",
+    "iOS",
+    "Android",
+    "full stack",
+    "web development",
+    "Mahabeer",
+  ],
+  alternates: {
+    canonical: `${siteUrl}/blogs`,
+  },
+  openGraph: {
+    title: "Blogs | Mahabeer Portfolio",
+    description:
+      "Articles, tutorials, and dev notes on React, React Native, Firebase, iOS, Android, and full-stack development.",
+    type: "website",
+    url: `${siteUrl}/blogs`,
+    siteName: "Mahabeer Portfolio",
+    locale: "en_US",
+    images: [
+      {
+        url: "/pic.webp",
+        width: 1200,
+        height: 630,
+        alt: "Mahabeer Blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blogs | Mahabeer Portfolio",
+    description:
+      "Articles, tutorials, and dev notes on React, React Native, Firebase, iOS, Android, and full-stack development.",
+    images: ["/pic.webp"],
+    creator: "@mahabeer_dev",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 }
 
 function formatDate(dateStr: string) {
@@ -111,6 +164,30 @@ export default function BlogsPage() {
           </p>
         )}
       </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Blogs | Mahabeer Portfolio",
+            description:
+              "Articles, tutorials, and dev notes on React, React Native, Firebase, iOS, Android, and full-stack development.",
+            url: `${siteUrl}/blogs`,
+            mainEntity: {
+              "@type": "ItemList",
+              numberOfItems: blogs.length,
+              itemListElement: blogs.map((blog, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                url: `${siteUrl}/blogs/${blog.slug}`,
+                name: blog.title,
+              })),
+            },
+          }),
+        }}
+      />
     </main>
   )
 }
