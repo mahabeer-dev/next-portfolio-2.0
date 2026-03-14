@@ -4,10 +4,10 @@ export type Product = {
   tagline: string
   description: string
   url: string
-  npmUrl: string
-  installCommand: string
-  version: string
-  license: string
+  npmUrl?: string
+  installCommand?: string
+  version?: string
+  license?: string
   tags: string[]
   features: {
     title: string
@@ -48,5 +48,33 @@ export const products: Product[] = [
       },
     ],
     techStack: ["React 18", "Express 5", "Tailwind CSS", "Radix UI", "Vite", "Puppeteer"],
+  },
+  {
+    id: 2,
+    title: "Highlightly",
+    tagline: "PDF highlighting & annotation in the browser",
+    description:
+      "A web-based PDF highlighting and annotation tool. Highlight text, add notes, and organize your reading — all in the browser. No install required.",
+    url: "https://highlightly.mahabeer.online",
+    tags: ["Web App", "PDF", "Annotation", "Productivity", "Reader"],
+    features: [
+      {
+        title: "PDF Highlighting",
+        description: "Highlight text in PDFs with customizable colors.",
+      },
+      {
+        title: "Annotations & Notes",
+        description: "Add notes and comments linked to selected text.",
+      },
+      {
+        title: "Browser-Based",
+        description: "Works entirely in the browser — no desktop install.",
+      },
+      {
+        title: "Organized Reading",
+        description: "Keep your highlights and notes in one place.",
+      },
+    ],
+    techStack: ["React", "PDF.js", "TypeScript", "Tailwind CSS"],
   },
 ]

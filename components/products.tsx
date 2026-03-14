@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -122,37 +121,44 @@ export default function Products() {
                         {tag}
                       </Badge>
                     ))}
-                    <Badge
-                      variant="outline"
-                      className="text-[10px] border-emerald-500/30 text-emerald-600 dark:text-emerald-400"
-                    >
-                      v{product.version}
-                    </Badge>
-                    <Badge
-                      variant="outline"
-                      className="text-[10px] border-sky-500/30 text-sky-600 dark:text-sky-400"
-                    >
-                      {product.license}
-                    </Badge>
+                    {product.version != null && (
+                      <Badge
+                        variant="outline"
+                        className="text-[10px] border-emerald-500/30 text-emerald-600 dark:text-emerald-400"
+                      >
+                        v{product.version}
+                      </Badge>
+                    )}
+                    {product.license != null && (
+                      <Badge
+                        variant="outline"
+                        className="text-[10px] border-sky-500/30 text-sky-600 dark:text-sky-400"
+                      >
+                        {product.license}
+                      </Badge>
+                    )}
                   </div>
 
                   <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
                     {product.description}
                   </p>
 
-                  <div className="mt-5 max-w-md">
-                    <InstallCommand command={product.installCommand} />
-                  </div>
+                  {product.installCommand != null && (
+                    <div className="mt-5 max-w-md">
+                      <InstallCommand command={product.installCommand} />
+                    </div>
+                  )}
 
                   <div className="mt-5 flex flex-wrap gap-2">
                     <Button asChild>
-                      <Link
-                        href={product.npmUrl}
+                      <a
+                        href={product.npmUrl ?? product.url}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <ExternalLink className="mr-2 h-4 w-4" /> View on npm
-                      </Link>
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        {product.npmUrl != null ? "View on npm" : "Visit site"}
+                      </a>
                     </Button>
                   </div>
                 </div>
@@ -216,7 +222,7 @@ export default function Products() {
                 "@type": "SoftwareApplication",
                 name: p.title,
                 description: p.description,
-                url: p.npmUrl,
+                url: p.npmUrl ?? p.url,
                 applicationCategory: "DeveloperApplication",
                 operatingSystem: "Cross-platform",
                 offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
