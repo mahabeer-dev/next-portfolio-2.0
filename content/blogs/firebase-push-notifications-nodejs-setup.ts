@@ -202,7 +202,7 @@ const post: BlogPost = {
     {
       type: "code",
       language: "text",
-      text: "✓  Firebase Admin SDK private key generated (admin-sdk.json)\n✓  Key securely stored in project, added to .gitignore\n✓  Cloud Messaging enabled in Firebase Console\n✓  Test notification sent and verified on devices\n✓  Both iOS and Android apps targeted",
+      text: "✓  Firebase Admin SDK private key generated (admin-sdk.json)\n✓  Cloud Messaging enabled in Firebase Console\n✓  Test notification sent and verified on devices\n✓  Both iOS and Android apps targeted",
     },
 
     {
