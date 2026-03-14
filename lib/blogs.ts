@@ -29,8 +29,17 @@ import generateApnsKey from "@/content/blogs/generate-apns-key-ios-push-notifica
 import registerAndroidFirebase from "@/content/blogs/register-android-app-firebase-react-native";
 import registerIosFirebase from "@/content/blogs/register-ios-app-firebase-react-native";
 import firebaseCrashlytics from "@/content/blogs/enable-firebase-crashlytics-react-native";
+import fcmNodejsSetup from "@/content/blogs/firebase-push-notifications-nodejs-setup";
+import fcmNodejsCode from "@/content/blogs/firebase-push-notifications-nodejs-code";
 
-export const blogs: BlogPost[] = [firebaseCrashlytics, registerIosFirebase, registerAndroidFirebase, generateApnsKey];
+export const blogs: BlogPost[] = [
+  fcmNodejsCode,
+  fcmNodejsSetup,
+  firebaseCrashlytics,
+  registerIosFirebase,
+  registerAndroidFirebase,
+  generateApnsKey,
+];
 
 export const BLOGS_PER_PAGE = 4;
 
