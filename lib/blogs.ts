@@ -30,8 +30,10 @@ import registerAndroidFirebase from "@/content/blogs/register-android-app-fireba
 import registerIosFirebase from "@/content/blogs/register-ios-app-firebase-react-native";
 import firebaseCrashlytics from "@/content/blogs/enable-firebase-crashlytics-react-native";
 import fcmNodejsSetup from "@/content/blogs/firebase-push-notifications-nodejs-setup";
+import fcmNodejsCode from "@/content/blogs/firebase-push-notifications-nodejs-code";
 
 export const blogs: BlogPost[] = [
+  fcmNodejsCode,
   fcmNodejsSetup,
   firebaseCrashlytics,
   registerIosFirebase,
