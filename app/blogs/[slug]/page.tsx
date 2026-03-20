@@ -4,7 +4,15 @@ import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { blogs, getBlogBySlug, getRelatedBlogs, getBlogUrl, isExternalBlog } from "@/lib/blogs"
-import { ArrowLeft, Calendar, Clock } from "lucide-react"
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  Facebook,
+  Linkedin,
+  MessageCircle,
+  Twitter,
+} from "lucide-react"
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
 
@@ -137,6 +145,15 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
   const post = getBlogBySlug(slug)
   if (!post || !post.content) notFound()
+  const blogUrl = `${siteUrl}/blogs/${post.slug}`
+  const encodedUrl = encodeURIComponent(blogUrl)
+  const encodedTitle = encodeURIComponent(post.title)
+  const shareLinks = {
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+  }
 
   return (
     <main className="min-h-screen py-16 px-4 md:px-6">
@@ -172,6 +189,34 @@ export default async function BlogPostPage({ params }: Props) {
               <Clock className="h-4 w-4" />
               {post.readTime}
             </div>
+          </div>
+
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="text-xs sm:text-sm text-muted-foreground mr-1">Share:</span>
+            <Button variant="outline" size="sm" asChild>
+              <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer">
+                <Linkedin className="mr-1.5 h-4 w-4" />
+                LinkedIn
+              </a>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer">
+                <Facebook className="mr-1.5 h-4 w-4" />
+                Facebook
+              </a>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer">
+                <Twitter className="mr-1.5 h-4 w-4" />
+                X
+              </a>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-1.5 h-4 w-4" />
+                WhatsApp
+              </a>
+            </Button>
           </div>
 
           <div className="mt-6 border-b" />
