@@ -1,6 +1,7 @@
 import type React from "react";
 import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { WebAnalytics } from "@/components/web-analytics";
 import type { Metadata } from "next";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -105,6 +106,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <WebAnalytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -131,5 +133,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-import "./globals.css";
