@@ -32,8 +32,10 @@ import firebaseCrashlytics from "@/content/blogs/enable-firebase-crashlytics-rea
 import fcmNodejsSetup from "@/content/blogs/firebase-push-notifications-nodejs-setup";
 import fcmNodejsCode from "@/content/blogs/firebase-push-notifications-nodejs-code";
 import integrateFirebaseNotificationsRn from "@/content/blogs/integrate-firebase-notifications-react-native";
+import enableGoogleAnalytics4Nextjs from "@/content/blogs/enable-google-analytics-4-nextjs";
 
 export const blogs: BlogPost[] = [
+  enableGoogleAnalytics4Nextjs,
   integrateFirebaseNotificationsRn,
   fcmNodejsCode,
   fcmNodejsSetup,
