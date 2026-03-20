@@ -1,7 +1,12 @@
 import type React from "react";
+import Script from "next/script";
 import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { WebAnalytics } from "@/components/web-analytics";
+import { GaRouteReporter } from "@/components/ga-route-reporter";
+import {
+  getGaMeasurementId,
+  shouldInjectGoogleAnalytics,
+} from "@/lib/analytics-config";
 import type { Metadata } from "next";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -94,6 +99,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gaId = getGaMeasurementId();
+  const loadGa = shouldInjectGoogleAnalytics();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head></head>
@@ -106,7 +114,24 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
-        <WebAnalytics />
+        {loadGa && gaId ? (
+          <>
+            {/* Matches Google’s gtag.js snippet — best compatibility with Tag Assistant / GA setup */}
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-gtag-init" strategy="afterInteractive">
+              {`
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaId}');
+              `.trim()}
+            </Script>
+            <GaRouteReporter gaId={gaId} />
+          </>
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
