@@ -2,7 +2,16 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { blogs, getBlogUrl, isExternalBlog } from "@/lib/blogs"
-import { Calendar, Clock, ArrowLeft, ExternalLink, ArrowRight } from "lucide-react"
+import {
+  Calendar,
+  Clock,
+  ArrowLeft,
+  ExternalLink,
+  ArrowRight,
+  Linkedin,
+  Facebook,
+  Twitter,
+} from "lucide-react"
 import type { Metadata } from "next"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
@@ -97,9 +106,20 @@ export default function BlogsPage() {
           {blogs.map((blog) => {
             const href = getBlogUrl(blog)
             const external = isExternalBlog(blog)
+            const blogUrl = external ? href : `${siteUrl}/blogs/${blog.slug}`
+            const encodedUrl = encodeURIComponent(blogUrl)
+            const encodedTitle = encodeURIComponent(blog.title)
+            const shareLinks = {
+              linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+              facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+              twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+            }
 
-            const inner = (
-              <div className="group rounded-2xl border bg-gradient-to-br from-orange-600/5 to-rose-600/5 p-5 sm:p-6 hover:border-orange-500/30 transition-colors">
+            return (
+              <article
+                key={blog.id}
+                className="group rounded-2xl border bg-gradient-to-br from-orange-600/5 to-rose-600/5 p-5 sm:p-6 hover:border-orange-500/30 transition-colors"
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <Badge className="text-[10px] capitalize bg-orange-600/20 text-orange-600 dark:text-orange-400">
                     {blog.platform}
@@ -115,7 +135,13 @@ export default function BlogsPage() {
                 </div>
 
                 <h2 className="text-lg sm:text-xl font-semibold group-hover:text-orange-500 transition-colors">
-                  {blog.title}
+                  {external ? (
+                    <a href={href} target="_blank" rel="noopener noreferrer">
+                      {blog.title}
+                    </a>
+                  ) : (
+                    <Link href={href}>{blog.title}</Link>
+                  )}
                 </h2>
 
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -130,30 +156,36 @@ export default function BlogsPage() {
                       </Badge>
                     ))}
                   </div>
-                  <span className="flex items-center gap-1 text-sm font-medium text-orange-500">
-                    Read{" "}
-                    {external ? (
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    ) : (
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    )}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <Button variant="ghost" size="icon" asChild className="h-8 w-8">
+                      <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`Share ${blog.title} on LinkedIn`}>
+                        <Linkedin className="h-4 w-4" />
+                      </a>
+                    </Button>
+                    <Button variant="ghost" size="icon" asChild className="h-8 w-8">
+                      <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label={`Share ${blog.title} on Facebook`}>
+                        <Facebook className="h-4 w-4" />
+                      </a>
+                    </Button>
+                    <Button variant="ghost" size="icon" asChild className="h-8 w-8">
+                      <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" aria-label={`Share ${blog.title} on X`}>
+                        <Twitter className="h-4 w-4" />
+                      </a>
+                    </Button>
+                    <Button variant="link" size="sm" asChild className="text-orange-500">
+                      {external ? (
+                        <a href={href} target="_blank" rel="noopener noreferrer">
+                          Read <ExternalLink className="h-3.5 w-3.5 ml-1" />
+                        </a>
+                      ) : (
+                        <Link href={href}>
+                          Read <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                        </Link>
+                      )}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )
-
-            if (external) {
-              return (
-                <a key={blog.id} href={href} target="_blank" rel="noopener noreferrer">
-                  {inner}
-                </a>
-              )
-            }
-
-            return (
-              <Link key={blog.id} href={href}>
-                {inner}
-              </Link>
+              </article>
             )
           })}
         </div>
