@@ -1,557 +1,133 @@
-# integrate firebase notifications in react native app
+# how to enable google analytics for your website
+first we have to create a new analytics account if don't have one
+goto https://analytics.google.com/analytics/web/?authuser=0#/provision/create
 
-this guide assumes you already registered your rn apps(IOS and android) with the firebase.
-and you also setup the firebase admin at backend side
-you can follow the blogs in the system to comppete the previous steps
-
-to enable firebase notifications in the IOS
-we have to do and extra step on the firebase
-open your project on firebase
-goto setting cloud messaging tab(this tab will on,y be visible if you enabled cloud messageing in the firebase and created your messaging campaign)
+step 1: Create an account
+enter account name and hit next
 [image]
 
-now under the Apple app configuration section we have to upload APN auth key(we genereted the .p8 file in other blog)
-click on upload 
-in the modal window
-add ypour generated .p8 file
-enter your key id and team id we copied
-and click upload
+step 2 : Create a property
+
+property is basically a group under which you can add multiple app/website to mesure the data
+add Property name (Required), select your timezone and currency and hit next for the next step
 [image]
 
-for the ios we have to enable the notifications in the capabilities
-open your project in xcode and goto signing & capabilities tab
+step 3: Describe your business
+thease details are required by the google to better understand your bussiness
+
+so select Industry category and size of your organizatiop(generally Small - 1 to 10 employees)
+hit next
 [image]
 
-add the capability for push notifiation
+now we have to choose the objective of integrating the analytics
+Choose your business objectives
+
+
+in my case i want 
+Generate leads
+Understand web and/or app traffic
+View user engagement & retention
+
+choose which appropriatw with your bussiness
 [image]
 
-again open the add capability
+accept the privacy policy and move to Start collecting data section
+this section basically ask us our platform information weather its an app, web
 
-and add the background mode
-now under the background mode section
-enable remote notifications and background fetch
+choose web
+
+and enter url of your website and hit create and continue
+[image]
+
+after creation it will show the details of your streams
+copy the Measurement Id(we will need it in nect steps)
 [image]
 
 
-now lets head back to react native code side
-install the following packages
- "@react-native-firebase/messaging",
-   "@notifee/react-native":
 
-now open your root>index.js file
-paste the following code before the import of you App.ts
-this will setup your background notification show capability
 
-import '@react-native-firebase/app';
-import {
-  getMessaging,
-  setBackgroundMessageHandler,
-} from '@react-native-firebase/messaging';
-import { getApp } from '@react-native-firebase/app';
-import notifee, { AndroidImportance } from '@notifee/react-native';
+head back to your code side
+add the following env variables in your .env file
+# Google Analytics 4 — MUST be NEXT_PUBLIC_* and set before `pnpm build` (e.g. Vercel env + redeploy)
+# Admin → Data streams → Web → Measurement ID (G-XXXXXXXXXX)
+NEXT_PUBLIC_GA_MEASUREMENT_ID=
+# Aliases also work: NEXT_PUBLIC_GTAG_ID or NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+# Local dev: set NEXT_PUBLIC_GA_ENABLE_IN_DEV=true to send test hits
+NEXT_PUBLIC_GA_ENABLE_IN_DEV=
 
-const messaging = getMessaging(getApp());
 
-setBackgroundMessageHandler(messaging, async remoteMessage => {
-  try {
-    const notification = remoteMessage.notification;
-    const data = remoteMessage.data || {};
-    const title = notification?.title ?? data?.title ?? 'Notification';
-    const body = notification?.body ?? data?.body ?? data?.message ?? '';
+now create a config file under
+src>lib> analytics-config.ts
+this file will be responsivble to extract the tag id from your env and will provide it to the implementation function
+and add the3 following code
+/**
+ * GA4 Measurement ID must use NEXT_PUBLIC_* so it is embedded in the client bundle
+ * at build time. Set it in Vercel (etc.) under Environment Variables and redeploy.
+ *
+ * Supported names (first match wins):
+ * - NEXT_PUBLIC_GA_MEASUREMENT_ID (recommended)
+ * - NEXT_PUBLIC_GTAG_ID
+ * - NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+ */
+export function getGaMeasurementId(): string | undefined {
+  const raw =
+    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ||
+    process.env.NEXT_PUBLIC_GTAG_ID?.trim() ||
+    process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
 
-    if (Platform.OS === 'android') {
-      await notifee.createChannel({
-        id: 'default',
-        name: 'Default Notifications',
-        description: 'Default notification channel',
-        importance: AndroidImportance.HIGH,
-        vibration: true,
-        sound: 'default',
-      });
-      await notifee.displayNotification({
-        title,
-        body,
-        data,
-        android: {
-          channelId: 'default',
-          importance: AndroidImportance.HIGH,
-          // smallIcon: 'ic_notification',
-          pressAction: { id: 'default' },
-        },
-      });
-    }
-  } catch (err) {
-    console.warn('Background message handler error:', err);
+  if (!raw) return undefined;
+  return raw;
+}
+
+/** Skip GA in local dev unless NEXT_PUBLIC_GA_ENABLE_IN_DEV=true (keeps metrics clean). */
+export function shouldInjectGoogleAnalytics(): boolean {
+  const id = getGaMeasurementId();
+  if (!id) return false;
+  if (process.env.NODE_ENV === "development") {
+    return process.env.NEXT_PUBLIC_GA_ENABLE_IN_DEV === "true";
   }
-});
+  return true;
+}
 
-[image]
+now open your websites'e entry file
+eg layout.tsx
 
-
-
-
-now we have to handle the automatic notification permissions for both platforms
-install react-native-permissions if not already installed
-now open the androidManifest.xml file and add the follwing permision there
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-[image]
-
-now create a new service handling under the services folder as follow
-root>src>services>notitifcations>index.ts
-
-add the following function to handle the requestpermissions
-
+import bith utility fucntions
 import {
-  checkNotifications,
-  requestNotifications,
-  RESULTS,
-} from 'react-native-permissions';
-import type { NotificationOption } from 'react-native-permissions';
+  getGaMeasurementId,
+  shouldInjectGoogleAnalytics,
+} from "@/lib/analytics-config";
+
+get values for both variables
+  const gaId = getGaMeasurementId();
+  const loadGa = shouldInjectGoogleAnalytics();
 
 
-const NOTIFICATION_OPTIONS: NotificationOption[] = ['alert', 'badge', 'sound'];
+  now paste the following code before the end of your body tag
 
-function isNotificationGranted(status: string): boolean {
-  return status === RESULTS.GRANTED || status === RESULTS.LIMITED;
-}
-
-/** Request notification permission on app load (react-native-permissions). */
-export async function requestNotificationPermissionOnLoad(): Promise<void> {
-  try {
-    const { status } = await checkNotifications();
-    if (isNotificationGranted(status)) return;
-    await requestNotifications(NOTIFICATION_OPTIONS);
-  } catch {
-    // Permission request can fail on simulator or if user has already denied
-  }
-}
-
-this function will handle the notitifcation permisions 
-we will use thid function in our App.tsx as follow
-
-useEffect(() => {
-    requestNotificationPermissionOnLoad();
-}, []);
-
-[image]
-
-now after the permision handeling we have to save/send the token to our backend
-we are asuming your backned exposes a secure endpoint which is capable of recieving token and save that token in the database for the requesting user
-
-so in the root>src>services>notitifcations>index.ts
-create the following function which will send the token to the backend when the app starts and the user is logged in
- import { getMessaging, getToken } from '@react-native-firebase/messaging';
-import { getApp } from '@react-native-firebase/app';
-import { saveDeviceToken } from '../api';
-
-export async function initNotifications(userId: number) {
-  if (!userId) return;
-
-  try {
-    const { status } = await checkNotifications();
-    console.log('status', status);
-    if (!isNotificationGranted(status)) {
-      const { status: newStatus } =
-        await requestNotifications(NOTIFICATION_OPTIONS);
-      if (!isNotificationGranted(newStatus)) return;
-    }
-
-    const app = getApp();
-    const messaging = getMessaging(app);
-    const fcm_token = await getToken(messaging);
-    console.log('fcm_token', fcm_token);
-    await saveDeviceToken({ fcm_token }); // this api call will send the token to the backend
-  } catch (_error) {
-    console.log('Error', _error);
-  }
-}
-
-now we have to call/integrate this function where we are checking if the user is loggedin or not
-so head back to your navigation file where you are handeling the conditional roite rendering based in the user logged in status
-
-create a ref variable(to prevent multiple calls to the backend)
-
-  const hasRegisteredToken = useRef(false);
-
-now check if the userId exists in the store(user is logged in) and the api is not already called via ref flag
-
-useEffect(() => {
-    if (userId && !hasRegisteredToken.current) {
-      initNotifications(userId);
-      hasRegisteredToken.current = true;
-    }
-  }, [userId]);
-
-  [image]
-
-now your backend have the token from your device and your app is able to recieve the notifixation in the background
-now we have to handle the user clicks on the notifictions and we have to navigate the user to the appropriate sections or screens of our app
-for this we have created a unified and central pushNotificationController 
-reusable function
-
-create a new file under root>src>utils>pushNotificationController.tsx
-import { useEffect, useCallback } from 'react';
-import { Platform } from 'react-native';
-
-import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
-import {
-  getInitialNotification,
-  getMessaging,
-  onNotificationOpenedApp,
-} from '@react-native-firebase/messaging';
-import { getApp } from '@react-native-firebase/app';
-
-const messaging = getMessaging(getApp());
-
-const PushNotificationController = () => {
-  const handleNotificationPress = useCallback(
-    async (data: Record<string, string> | undefined) => {
-      if (!data) return;
-
-     
-    },
-    [],
-  );
-
-  const createNotificationChannel = useCallback(async () => {
-    if (Platform.OS === 'android') {
-      await notifee.createChannel({
-        id: 'default',
-        name: 'Default Notifications',
-        description: 'Default notification channel',
-        importance: AndroidImportance.HIGH,
-        vibration: true,
-        sound: 'default',
-      });
-      console.log('Notifee notification channel created');
-    }
-  }, []);
-
-  const displayNotification = useCallback(
-    async (title: string, body: string, data: any) => {
-      await notifee.displayNotification({
-        title,
-        body,
-        data,
-        android: {
-          channelId: 'default',
-          importance: AndroidImportance.HIGH,
-          // smallIcon: 'ic_notification',
-          largeIcon: 'ic_launcher',
-          pressAction: {
-            id: 'default',
-          },
-        },
-        ios: {
-          foregroundPresentationOptions: {
-            alert: true,
-            badge: true,
-            sound: true,
-          },
-        },
-      });
-    },
-    [],
-  );
-
-  useEffect(() => {
-    createNotificationChannel();
-
-    // Handle notification opened from background
-    const unsubscribeOnNotificationOpenedApp = onNotificationOpenedApp(
-      messaging,
-      remoteMessage => {
-        console.log(
-          'Notification caused app to open from background state:',
-          JSON.stringify(remoteMessage),
-        );
-        handleNotificationPress(remoteMessage.data as Record<string, string>);
-      },
-    );
-
-    // Handle notification opened from quit state
-    getInitialNotification(messaging).then(remoteMessage => {
-      if (remoteMessage) {
-        console.log(
-          'Notification caused app to open from quit state:',
-          JSON.stringify(remoteMessage),
-        );
-        handleNotificationPress(remoteMessage.data as Record<string, string>);
-      }
-    });
-
-    // Handle Notifee notification events (when user interacts with notification)
-    const unsubscribeNotifeeEvents = notifee.onForegroundEvent(
-      ({ type, detail }) => {
-        if (type === EventType.PRESS) {
-          console.log('User pressed notification:', detail.notification);
-          handleNotificationPress(
-            detail.notification?.data as Record<string, string>,
-          );
-        }
-      },
-    );
-
-    // Handle background events
-    notifee.onBackgroundEvent(async ({ type, detail }) => {
-      if (type === EventType.PRESS) {
-        console.log(
-          'User pressed notification in background:',
-          detail.notification,
-        );
-        // Background handling will be processed when app comes to foreground
-      }
-    });
-
-    return () => {
-      unsubscribeOnNotificationOpenedApp();
-      unsubscribeNotifeeEvents();
-    };
-  }, [createNotificationChannel, displayNotification, handleNotificationPress]);
-  return null;
-};
-export default PushNotificationController;
-
-now we have to use this component in our navigationContainer and outside the navigation screens as follow
-return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <PaperProvider>
-          <NavigationContainer ref={navigationRef} linking={linking}>
-            <PushNotificationController /> <------ here it will go
-            <RootStack />
-            <FlashMessage position={'top'} />
-          </NavigationContainer>
-        </PaperProvider>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
-  );
-
-now we will handle the in app notification show
-for this we have to maintain a global store which will listen for any incoming notification and push the notification details if recieved
-also we need a UI component which will be consuming this store and will be responsible to show the ui accordingly
-
-so create a global store as follow(we are using zustand you can use any other global storage library if want)
-create a new file under root>src>store>useInAppNotificationStore.ts and add the following code in it
-import { create } from 'zustand';
-
-export interface InAppNotificationPayload {
-  title: string;
-  body?: string;
-  imageUrl?: string | null;
-  data?: Record<string, string>;
-}
-
-interface State {
-  visible: boolean;
-  title: string;
-  body: string;
-  imageUrl: string | null;
-  data: Record<string, string> | null;
-}
-
-interface Actions {
-  show: (payload: InAppNotificationPayload) => void;
-  dismiss: () => void;
-}
-
-const initialState: State = {
-  visible: false,
-  title: '',
-  body: '',
-  imageUrl: null,
-  data: null,
-};
-
-const useInAppNotificationStore = create<State & Actions>(set => ({
-  ...initialState,
-  show: payload =>
-    set({
-      visible: true,
-      title: payload.title ?? 'Notification',
-      body: payload.body ?? '',
-      imageUrl: payload.imageUrl ?? null,
-      data: payload.data ?? null,
-    }),
-  dismiss: () => set(initialState),
-}));
-
-export default useInAppNotificationStore;
-
-
-now create a reusable component component which will handle the ui for the in app notifications
-create a new file under root>src>components> Inappnotification.tsx
-import React, { useCallback, useEffect } from "react";
-import { Image, Pressable, StyleSheet, View, Text } from "react-native";
-
-import { useInAppNotificationStore } from "../../store";
-
-const AUTO_DISMISS_MS = 4500;
-
-const InAppNotificationBanner = () => {
-  const { visible, title, body, imageUrl, dismiss, data } =
-    useInAppNotificationStore();
-
-  useEffect(() => {
-    if (!visible) return;
-    const timer = setTimeout(dismiss, AUTO_DISMISS_MS);
-    return () => clearTimeout(timer);
-  }, [visible, dismiss]);
-
-  const onDismiss = useCallback(
-    (e: { stopPropagation: () => void }) => {
-      e.stopPropagation();
-      dismiss();
-    },
-    [dismiss],
-  );
-
-  const onMarkAsRead = useCallback(
-    async (e: { stopPropagation: () => void }) => {
-      e.stopPropagation();
-      console.log("data", data);
-      try {
-        // await markNotificationRead(data?.notificationId ?? '');
-      } catch {
-      } finally {
-        dismiss();
-      }
-    },
-    [data, dismiss],
-  );
-
-  if (!visible) return null;
-
-  return (
-    <Pressable
-      style={[
-        styles.container,
-        {
-          paddingTop: 10,
-        },
-      ]}
-      onPress={onMarkAsRead}
-      accessibilityRole="button"
-      accessibilityLabel="Dismiss notification"
-    >
-      <View style={styles.card}>
-        {imageUrl ? (
-          <Image
-            source={{ uri: imageUrl }}
-            style={styles.image}
-            resizeMode="cover"
-          />
+  .....
+   {loadGa && gaId ? (
+          <>
+            {/* Matches Google’s gtag.js snippet — best compatibility with Tag Assistant / GA setup */}
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-gtag-init" strategy="afterInteractive">
+              {`
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaId}');
+              `.trim()}
+            </Script>
+            <GaRouteReporter gaId={gaId} />
+          </>
         ) : null}
-        <View style={styles.content}>
-          <Text style={{ fontSize: 14, fontWeight: "600", color: "#000" }}>
-            {title}
-          </Text>
-          {body ? (
-            <Text style={{ fontSize: 12, fontWeight: "400", color: "#000" }}>
-              {body}
-            </Text>
-          ) : null}
-        </View>
-        <Pressable
-          onPress={onDismiss}
-          style={styles.dismissBtn}
-          hitSlop={8}
-          accessibilityLabel="Close"
-        >
-          <Text style={{ fontSize: 18, color: "#000" }}>
-            ×
-          </Text>
-        </Pressable>
-      </View>
-    </Pressable>
-  );
-};
-
-export default InAppNotificationBanner;
-
-const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    zIndex: 9999,
-    paddingHorizontal: 16,
-    backgroundColor: "white",
-  },
-  card: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#0190F70F",
-    borderRadius: 12,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#0190F7",
-    shadowColor: "#0190F7",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  },
-  image: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    marginRight: 10,
-  },
-  content: {
-    flex: 1,
-    minWidth: 0,
-  },
-
-  body: {
-    lineHeight: 18,
-  },
-  dismissBtn: {
-    padding: 4,
-    marginLeft: 4,
-  },
-});
-
-now we have to create a hook which will update the store when a new notification comes
-create a new hook under root>src>services>notificatios>useNotification.ts
-import { useEffect } from 'react';
-import { getApp } from '@react-native-firebase/app';
-import { getMessaging, onMessage } from '@react-native-firebase/messaging';
-import { useInAppNotificationStore } from '../../store';
-
-export function useNotifications() {
-  useEffect(() => {
-    const app = getApp();
-    const messaging = getMessaging(app);
-
-    const unsubscribe = onMessage(messaging, async remoteMessage => {
-      console.log('remoteMessage', remoteMessage);
-      const notification = remoteMessage.notification;
-      const title = notification?.title ?? 'Notification';
-      const body = notification?.body ?? '';
-      const imageUrl =
-        (notification as { imageUrl?: string })?.imageUrl ??
-        (notification as { image?: string })?.image ??
-        null;
-      const data = remoteMessage.data as Record<string, string> | undefined;
-
-      useInAppNotificationStore.getState().show({
-        title,
-        body,
-        imageUrl: imageUrl ?? undefined,
-        data,
-      });
-    });
-
-    return unsubscribe;
-  }, []);
-}
+        </body>
 
 
-now we have to use this notification hook when app starts
-use this hook in the App.tsx
-[image]
+now redeploy your app to and make sure you added the variaabls in your deployement providee
 
-now your app is capable of handeling all type of notifications
-
+your analytics adata will be shown
 
