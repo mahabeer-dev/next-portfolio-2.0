@@ -1,7 +1,7 @@
 # Mahabeer Portfolio (Next.js)
 
 A fast, accessible personal portfolio built with Next.js 15, React 19, TypeScript, Tailwind CSS, and Radix UI. It includes strong SEO defaults, an interactive Open Source showcase, projects gallery with filters, and a contact workflow powered by Nodemailer and React Email.
-   
+    
 ## Features
 - Modern stack: `Next.js 15`, `React 19`, `TypeScript`, `Tailwind CSS`, `Radix UI`, `Framer Motion`
 - Theming: `next-themes` with system/dark mode and safe hydration
