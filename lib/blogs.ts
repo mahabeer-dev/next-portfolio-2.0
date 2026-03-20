@@ -31,8 +31,10 @@ import registerIosFirebase from "@/content/blogs/register-ios-app-firebase-react
 import firebaseCrashlytics from "@/content/blogs/enable-firebase-crashlytics-react-native";
 import fcmNodejsSetup from "@/content/blogs/firebase-push-notifications-nodejs-setup";
 import fcmNodejsCode from "@/content/blogs/firebase-push-notifications-nodejs-code";
+import integrateFirebaseNotificationsRn from "@/content/blogs/integrate-firebase-notifications-react-native";
 
 export const blogs: BlogPost[] = [
+  integrateFirebaseNotificationsRn,
   fcmNodejsCode,
   fcmNodejsSetup,
   firebaseCrashlytics,
