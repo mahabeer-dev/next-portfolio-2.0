@@ -23,14 +23,12 @@ export const metadata = {
     title: "Mahabeer | Full Stack Developer",
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
-    images: [{ url: "/pic.webp", width: 1200, height: 630, alt: "Mahabeer" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mahabeer | Full Stack Developer",
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
-    images: ["/pic.webp"],
   },
   robots: { index: true, follow: true },
 }

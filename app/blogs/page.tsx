@@ -43,21 +43,12 @@ export const metadata: Metadata = {
     url: `${siteUrl}/blogs`,
     siteName: "Mahabeer Portfolio",
     locale: "en_US",
-    images: [
-      {
-        url: "/pic.webp",
-        width: 1200,
-        height: 630,
-        alt: "Mahabeer Blog",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Blogs | Mahabeer Portfolio",
     description:
       "Articles, tutorials, and dev notes on React, React Native, Firebase, iOS, Android, and full-stack development.",
-    images: ["/pic.webp"],
     creator: "@mahabeer_dev",
   },
   robots: {

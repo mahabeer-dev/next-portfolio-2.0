@@ -11,6 +11,10 @@ import type { Metadata } from "next";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+// Only emit the Google Search Console HTML-tag verification when a real token
+// is provided. The Domain property is verified via DNS, so this is optional.
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -43,9 +47,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
-    languages: {
-      "en-US": "/en-US",
-    },
   },
   openGraph: {
     type: "website",
@@ -55,21 +56,12 @@ export const metadata: Metadata = {
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
     siteName: "Mahabeer Portfolio",
-    images: [
-      {
-        url: "/pic.webp",
-        width: 1200,
-        height: 630,
-        alt: "Mahabeer Portfolio",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mahabeer | Full Stack Developer",
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
-    images: ["/pic.webp"],
     creator: "@mahabeer_dev",
   },
   robots: {
@@ -83,14 +75,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: "/pic.webp",
-    shortcut: "/pic.webp",
-    apple: "/pic.webp",
-  },
-  verification: {
-    google: "google-site-verification=YOUR_CODE_HERE",
-  },
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
   category: "technology",
 };
 

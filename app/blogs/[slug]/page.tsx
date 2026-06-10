@@ -81,7 +81,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {}
 
   const blogUrl = `${siteUrl}/blogs/${post.slug}`
-  const ogImage = post.coverImage ?? "/pic.webp"
 
   return {
     title: post.title,
@@ -103,20 +102,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       tags: post.tags,
       siteName: "Mahabeer Portfolio",
       locale: "en_US",
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
-      images: [ogImage],
       creator: "@mahabeer_dev",
     },
     robots: {

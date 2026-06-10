@@ -7,14 +7,16 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
   images: {
     unoptimized: true,
+  },
+  // Pin the workspace root to this project so Next doesn't infer it from an
+  // unrelated lockfile higher up the filesystem (e.g. ~/package-lock.json).
+  turbopack: {
+    root: import.meta.dirname,
   },
   experimental: {
     webpackBuildWorker: true,
