@@ -56,21 +56,12 @@ export const metadata: Metadata = {
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
     siteName: "Mahabeer Portfolio",
-    images: [
-      {
-        url: "/pic.webp",
-        width: 1200,
-        height: 630,
-        alt: "Mahabeer Portfolio",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mahabeer | Full Stack Developer",
     description:
       "Professional portfolio of Mahabeer, a full stack developer specializing in React, Next.js, and modern web technologies.",
-    images: ["/pic.webp"],
     creator: "@mahabeer_dev",
   },
   robots: {

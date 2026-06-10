@@ -14,14 +14,12 @@ export const metadata = {
     title: "Projects | Mahabeer",
     description:
       "Explore the portfolio projects of Mahabeer, featuring web and mobile applications built with React, Next.js, and React Native.",
-    images: [{ url: "/pic.webp", width: 1200, height: 630, alt: "Mahabeer Projects" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Projects | Mahabeer",
     description:
       "Explore the portfolio projects of Mahabeer, featuring web and mobile applications built with React, Next.js, and React Native.",
-    images: ["/pic.webp"],
   },
 }
 
