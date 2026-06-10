@@ -11,6 +11,10 @@ import type { Metadata } from "next";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+// Only emit the Google Search Console HTML-tag verification when a real token
+// is provided. The Domain property is verified via DNS, so this is optional.
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -88,9 +92,9 @@ export const metadata: Metadata = {
     shortcut: "/pic.webp",
     apple: "/pic.webp",
   },
-  verification: {
-    google: "google-site-verification=YOUR_CODE_HERE",
-  },
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
   category: "technology",
 };
 
