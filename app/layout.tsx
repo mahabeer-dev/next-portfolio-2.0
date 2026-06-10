@@ -84,11 +84,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: "/pic.webp",
-    shortcut: "/pic.webp",
-    apple: "/pic.webp",
-  },
   ...(googleSiteVerification
     ? { verification: { google: googleSiteVerification } }
     : {}),
