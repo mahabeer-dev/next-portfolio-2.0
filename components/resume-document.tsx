@@ -157,8 +157,16 @@ function BulletLine({ children }: { children: string }) {
   );
 }
 
-/** Strip the scheme so the printed URL stays short but still readable. */
-const displayUrl = (url: string) => url.replace(/^https?:\/\//, "");
+/**
+ * Shorten a URL for print: drop the scheme, the "www." and any trailing slash.
+ * These come straight from the site's `liveUrl` values, which are full
+ * canonical URLs; "www.minoasrentals.com/" reads as noise on a CV.
+ */
+const displayUrl = (url: string) =>
+  url
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .replace(/\/$/, "");
 
 export function ResumeDocument({ resume }: { resume: ResolvedResume }) {
   const {

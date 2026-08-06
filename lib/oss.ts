@@ -62,6 +62,17 @@ const { pdfDoc, totalPages } = await loadPdfDocument(file)
     installCommand: "npx git-weekly-report",
   },
   {
+    id: 6,
+    title: "natify-web-bridge",
+    description:
+      "Bridges web applications to native mobile capabilities, letting web code trigger device features such as camera access, GPS, and push notifications through natify.",
+    image: "/pic.webp",
+    tags: ["React Native", "TypeScript", "Web to Native", "MIT"],
+    url: "https://www.npmjs.com/package/natify-web-bridge",
+    type: "npm",
+    installCommand: "npm i natify-web-bridge",
+  },
+  {
     id: 1,
     title: "react-native-ui-house",
     description:

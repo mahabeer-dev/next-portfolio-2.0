@@ -10,6 +10,8 @@
  * is not.
  */
 
+import { projects as siteProjects } from "./projects";
+
 /* ------------------------------------------------------------------ *
  * Variants
  * ------------------------------------------------------------------ */
@@ -419,7 +421,11 @@ export const experience: Job[] = [
 ];
 
 /* ------------------------------------------------------------------ *
- * Projects — ordered pool; each variant takes the first N that match.
+ * Projects
+ *
+ * Derived from lib/projects.ts — that file is the single source of truth.
+ * To add a project to the CV, add it there with `profiles` and a
+ * `resumeRank`; nothing in this file needs to change.
  * ------------------------------------------------------------------ */
 
 export type ResumeProject = {
@@ -430,118 +436,18 @@ export type ResumeProject = {
   profiles: ProfileId[];
 };
 
-export const projects: ResumeProject[] = [
-  {
-    name: "Minoas Rentals",
-    url: "https://minoasrentals.com",
-    summary:
-      "Vehicle rental booking platform with date-based availability and Stripe payments.",
-    stack: ["SvelteKit", "TypeScript", "Tailwind CSS", "Prisma", "Stripe"],
-    profiles: ["fullstack", "sveltekit", "javascript", "node"],
-  },
-  {
-    name: "Lexium World CRM",
-    url: "https://lexiumworld.com",
-    summary:
-      "Full-stack CRM with an n8n-powered WhatsApp bot: customers file complaints over WhatsApp, and multi-level admins assign and track them to OTP-verified completion.",
-    stack: ["SvelteKit", "Prisma", "MySQL", "n8n", "WhatsApp API"],
-    profiles: ["fullstack", "sveltekit", "node", "bubble"],
-  },
-  {
-    name: "Cultivaid CRM",
-    url: "https://cultivaid.vercel.app",
-    summary:
-      "Multi-role agriculture CRM (Super Admin, Agronomist, Farmer, Student) with role-based access control, notifications, and in-app messaging.",
-    stack: ["Next.js", "MySQL", "Prisma", "NextAuth", "JWT"],
-    profiles: ["fullstack", "react", "node", "javascript"],
-  },
-  {
-    name: "Skylark Logistics Driver App",
-    summary:
-      "iOS and Android driver app for a Canadian logistics operator: load management, real-time dispatcher chat, media sharing, and live location tracking.",
-    stack: ["React Native", "WebSockets", "OneSignal"],
-    profiles: ["fullstack", "mobile", "react", "node"],
-  },
-  {
-    name: "ClipMe",
-    url: "https://play.google.com/store/apps/details?id=com.clipme.extension",
-    summary:
-      "Android app that syncs the clipboard between mobile and desktop browsers in real time.",
-    stack: ["React Native", "Firebase", "Firestore", "OneSignal"],
-    profiles: ["mobile", "fullstack"],
-  },
-  {
-    name: "ElloMed",
-    url: "https://www.ellomed.com",
-    summary:
-      "Healthcare product delivered across a React Native app and a Next.js marketing site, with a shared responsive component system.",
-    stack: ["React Native", "React.js", "Next.js", "Tailwind CSS"],
-    profiles: ["mobile", "react", "javascript"],
-  },
-  {
-    name: "Memantra Wellness",
-    url: "https://memantra.co.in",
-    summary:
-      "Nutrition and wellness platform with personalized plans and Razorpay checkout, self-hosted on a Linux VPS.",
-    stack: ["SvelteKit", "Tailwind CSS", "Razorpay", "MySQL", "VPS"],
-    profiles: ["sveltekit", "fullstack", "node"],
-  },
-  {
-    name: "Sirlekh Website & CRM",
-    url: "https://www.sirlekhtv.com",
-    summary:
-      "Public website plus internal CRM with Gemini-assisted content workflows.",
-    stack: ["SvelteKit", "Prisma", "MySQL", "Gemini API"],
-    profiles: ["sveltekit", "fullstack"],
-  },
-  {
-    name: "Akairis",
-    url: "https://akairis.com",
-    summary:
-      "Landing web app with a clean component architecture and Prisma/MySQL-backed data model.",
-    stack: ["SvelteKit", "Tailwind CSS", "Prisma", "MySQL"],
-    profiles: ["sveltekit", "javascript"],
-  },
-  {
-    name: "Top Notch Security",
-    url: "https://topnotchsecurityinc.com",
-    summary: "Marketing website built against a Strapi CMS backend.",
-    stack: ["SvelteKit", "Tailwind CSS", "Strapi CMS"],
-    profiles: ["sveltekit", "javascript"],
-  },
-  {
-    name: "LinkedScribe AI",
-    url: "https://app.linkedscribe.com",
-    summary:
-      "AI-powered LinkedIn content platform with OpenAI generation and Stripe subscription billing.",
-    stack: ["Bubble.io", "OpenAI API", "Stripe"],
-    profiles: ["bubble", "fullstack"],
-  },
-  {
-    name: "Bonds",
-    url: "https://www.heybonds.com",
-    summary:
-      "Relationship coaching product on web and Android with OpenAI-driven guidance, Firebase, and campaign/analytics tracking.",
-    stack: ["Bubble.io", "OpenAI API", "Firebase", "Google Tag Manager"],
-    profiles: ["bubble"],
-  },
-  {
-    name: "ChatMap AI",
-    url: "https://play.google.com/store/apps/details?id=com.chatmap.ai",
-    summary:
-      "AI-content social platform where users create and share generated content, with Stripe monetization.",
-    stack: ["Bubble.io", "OpenAI API", "Stripe"],
-    profiles: ["bubble"],
-  },
-  {
-    name: "Emrit Android App",
-    url: "https://emrit.io",
-    summary:
-      "Contributed features and improvements to the Android app for a hardware/network product.",
-    stack: ["React Native", "Android"],
-    profiles: ["mobile"],
-  },
-];
+export const projects: ResumeProject[] = siteProjects
+  // A project without `profiles` is site-only and never reaches a CV.
+  .filter((p) => p.profiles && p.profiles.length > 0)
+  .slice()
+  .sort((a, b) => (a.resumeRank ?? Infinity) - (b.resumeRank ?? Infinity))
+  .map((p) => ({
+    name: p.resumeName ?? p.title,
+    url: p.liveUrl || undefined,
+    summary: p.resumeSummary ?? p.description,
+    stack: p.resumeStack ?? p.tags,
+    profiles: p.profiles as ProfileId[],
+  }));
 
 /* ------------------------------------------------------------------ *
  * Open source
@@ -559,6 +465,12 @@ export const openSource: OssItem[] = [
     summary:
       "Authored and published a TypeScript React Native UI component library (Avatar, IconButton, Card, Badge, form inputs) to npm — reusable, customizable components for mobile apps.",
     profiles: ["mobile", "fullstack", "react", "javascript"],
+  },
+  {
+    name: "natify-web-bridge",
+    summary:
+      "Authored and published an npm package that bridges web applications to native mobile capabilities, letting web code trigger device features such as camera access, GPS, and push notifications.",
+    profiles: ["mobile", "react", "javascript", "fullstack"],
   },
   {
     name: "Developer tooling on npm",

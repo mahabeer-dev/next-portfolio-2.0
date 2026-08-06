@@ -1,3 +1,5 @@
+import type { ProfileId } from "./resume";
+
 export type Project = {
   id: number;
   title: string;
@@ -6,6 +8,21 @@ export type Project = {
   tags: string[];
   liveUrl: string;
   category: string;
+
+  /* ---- Resume fields. This file is the single source of truth: add a
+     project here once and it flows to both the site and every CV variant.
+     Omit `profiles` and the project stays on the site only. ---- */
+
+  /** CV profiles this project appears under. Omitted = never on the CV. */
+  profiles?: ProfileId[];
+  /** Lower sorts earlier in the CV pool; each variant takes the top N. Unranked sort last. */
+  resumeRank?: number;
+  /** Shorter name for the CV, e.g. "ClipMe" rather than "ClipMe Mobile App". */
+  resumeName?: string;
+  /** Terse achievement-oriented line for the CV. Falls back to `description`. */
+  resumeSummary?: string;
+  /** Stack for the CV when `tags` carries non-stack labels. Falls back to `tags`. */
+  resumeStack?: string[];
 };
 
 export const projects: Project[] = [
@@ -18,6 +35,10 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "TypeScript", "Tailwind CSS", "Stripe", "Prisma"],
     liveUrl: "https://www.minoasrentals.com/",
     category: "sveltekit",
+    resumeRank: 1,
+    profiles: ["fullstack", "sveltekit", "javascript", "node"],
+    resumeSummary:
+      "Vehicle rental booking platform with date-based availability and Stripe payments.",
   },
   {
     id: 2,
@@ -28,6 +49,11 @@ export const projects: Project[] = [
     tags: ["Bubble.io", "Stripe", "Open AI"],
     liveUrl: "https://app.linkedscribe.com/",
     category: "bubble",
+    resumeRank: 11,
+    profiles: ["bubble", "fullstack"],
+    resumeSummary:
+      "AI-powered LinkedIn content platform with OpenAI generation and Stripe subscription billing.",
+    resumeStack: ["Bubble.io", "OpenAI API", "Stripe"],
   },
   {
     id: 3,
@@ -38,6 +64,11 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Tailwind CSS", "Razorpay", "VPS", "Mysql"],
     liveUrl: "https://memantra.co.in/",
     category: "sveltekit",
+    resumeRank: 7,
+    profiles: ["sveltekit", "fullstack", "node"],
+    resumeSummary:
+      "Nutrition and wellness platform with personalized plans and Razorpay checkout, self-hosted on a Linux VPS.",
+    resumeStack: ["SvelteKit", "Tailwind CSS", "Razorpay", "MySQL", "VPS"],
   },
   {
     id: 4,
@@ -49,6 +80,12 @@ export const projects: Project[] = [
     liveUrl:
       "https://play.google.com/store/apps/details?id=com.clipme.extension",
     category: "react-native",
+    resumeRank: 5,
+    profiles: ["mobile", "fullstack"],
+    resumeName: "ClipMe",
+    resumeSummary:
+      "Android app that syncs the clipboard between mobile and desktop browsers in real time.",
+    resumeStack: ["React Native", "Firebase", "Firestore", "OneSignal"],
   },
   {
     id: 5,
@@ -59,6 +96,10 @@ export const projects: Project[] = [
     tags: ["React Native", "Android", "Mobile"],
     liveUrl: "https://emrit.io/about/",
     category: "react-native",
+    resumeRank: 14,
+    profiles: ["mobile"],
+    resumeSummary:
+      "Contributed features and improvements to the Android app for a hardware/network product.",
   },
   {
     id: 6,
@@ -69,6 +110,11 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Tailwind CSS", "Strapi CMS"],
     liveUrl: "https://topnotchsecurityinc.com/",
     category: "sveltekit",
+    resumeRank: 10,
+    profiles: ["sveltekit", "javascript"],
+    resumeName: "Top Notch Security",
+    resumeSummary:
+      "Marketing website built against a Strapi CMS backend.",
   },
   {
     id: 7,
@@ -80,6 +126,11 @@ export const projects: Project[] = [
     liveUrl:
       "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
     category: "bubble",
+    resumeRank: 13,
+    profiles: ["bubble"],
+    resumeSummary:
+      "AI-content social platform where users create and share generated content, with Stripe monetization.",
+    resumeStack: ["Bubble.io", "OpenAI API", "Stripe"],
   },
   {
     id: 8,
@@ -90,6 +141,11 @@ export const projects: Project[] = [
     tags: ["React Native", "React.js", "Tailwind CSS"],
     liveUrl: "https://www.ellomed.com/",
     category: "reactJs",
+    resumeRank: 6,
+    profiles: ["mobile", "react", "javascript"],
+    resumeSummary:
+      "Healthcare product delivered across a React Native app and a Next.js marketing site, with a shared responsive component system.",
+    resumeStack: ["React Native", "React.js", "Next.js", "Tailwind CSS"],
   },
   {
     id: 9,
@@ -106,6 +162,11 @@ export const projects: Project[] = [
     ],
     liveUrl: "",
     category: "react-native",
+    resumeRank: 4,
+    profiles: ["fullstack", "mobile", "react", "node"],
+    resumeSummary:
+      "iOS and Android driver app for a Canadian logistics operator: load management, real-time dispatcher chat, media sharing, and live location tracking.",
+    resumeStack: ["React Native", "WebSockets", "OneSignal"],
   },
   {
     id: 10,
@@ -116,6 +177,11 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Tailwind CSS", "Prisma", "MySQL"],
     liveUrl: "https://akairis.com/",
     category: "sveltekit",
+    resumeRank: 9,
+    profiles: ["sveltekit", "javascript"],
+    resumeName: "Akairis",
+    resumeSummary:
+      "Landing web app with a clean component architecture and Prisma/MySQL-backed data model.",
   },
   {
     id: 11,
@@ -133,6 +199,10 @@ export const projects: Project[] = [
     ],
     liveUrl: "https://lexiumworld.com/",
     category: "sveltekit",
+    resumeRank: 2,
+    profiles: ["fullstack", "sveltekit", "node", "bubble"],
+    resumeSummary:
+      "Full-stack CRM with an n8n-powered WhatsApp bot: customers file complaints over WhatsApp, and multi-level admins assign and track them to OTP-verified completion.",
   },
   {
     id: 12,
@@ -143,6 +213,11 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Prisma", "MySQL", "Tailwind CSS", "Gemini"],
     liveUrl: "https://www.sirlekhtv.com/",
     category: "sveltekit",
+    resumeRank: 8,
+    profiles: ["sveltekit", "fullstack"],
+    resumeSummary:
+      "Public website plus internal CRM with Gemini-assisted content workflows.",
+    resumeStack: ["SvelteKit", "Prisma", "MySQL", "Gemini API"],
   },
   {
     id: 13,
@@ -153,6 +228,10 @@ export const projects: Project[] = [
     tags: ["Next.js", "MySQL", "Prisma", "NextAuth", "JWT"],
     liveUrl: "https://cultivaid.vercel.app/",
     category: "nextjs",
+    resumeRank: 3,
+    profiles: ["fullstack", "react", "node", "javascript"],
+    resumeSummary:
+      "Multi-role agriculture CRM (Super Admin, Agronomist, Farmer, Student) with role-based access control, notifications, and in-app messaging.",
   },
   {
     id: 14,
@@ -169,5 +248,11 @@ export const projects: Project[] = [
     ],
     liveUrl: "https://www.heybonds.com/",
     category: "bubble",
+    resumeRank: 12,
+    profiles: ["bubble"],
+    resumeName: "Bonds",
+    resumeSummary:
+      "Relationship coaching product on web and Android with OpenAI-driven guidance, Firebase, and campaign/analytics tracking.",
+    resumeStack: ["Bubble.io", "OpenAI API", "Firebase", "Google Tag Manager"],
   },
 ];
