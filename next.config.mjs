@@ -18,6 +18,9 @@ const nextConfig = {
   turbopack: {
     root: import.meta.dirname,
   },
+  // react-pdf ships Node-targeted CJS with font/binary assets; bundling it
+  // breaks PDF generation, so keep it external on the server.
+  serverExternalPackages: ['@react-pdf/renderer'],
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
