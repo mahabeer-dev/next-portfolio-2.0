@@ -429,6 +429,8 @@ export const experience: Job[] = [
  * ------------------------------------------------------------------ */
 
 export type ResumeProject = {
+  /** Stable id, shared with lib/projects.ts — used in the ?projects= param. */
+  id: number;
   name: string;
   url?: string;
   summary: string;
@@ -442,12 +444,35 @@ export const projects: ResumeProject[] = siteProjects
   .slice()
   .sort((a, b) => (a.resumeRank ?? Infinity) - (b.resumeRank ?? Infinity))
   .map((p) => ({
+    id: p.id,
     name: p.resumeName ?? p.title,
     url: p.liveUrl || undefined,
     summary: p.resumeSummary ?? p.description,
     stack: p.resumeStack ?? p.tags,
     profiles: p.profiles as ProfileId[],
   }));
+
+/**
+ * The projects a profile would use if nobody touched anything: the top
+ * `maxProjects` that are tagged for it, in rank order.
+ */
+export function defaultProjectIds(profile: ProfileId): number[] {
+  return projects
+    .filter((p) => p.profiles.includes(profile))
+    .slice(0, profileConfig[profile].maxProjects)
+    .map((p) => p.id);
+}
+
+/** Parse a "1,4,9" query param into ids that actually exist. */
+export function parseProjectIds(raw: string | null): number[] | null {
+  if (!raw) return null;
+  const known = new Set(projects.map((p) => p.id));
+  const ids = raw
+    .split(",")
+    .map((s) => Number(s.trim()))
+    .filter((n) => Number.isInteger(n) && known.has(n));
+  return ids.length > 0 ? ids : null;
+}
 
 /* ------------------------------------------------------------------ *
  * Open source
@@ -607,6 +632,7 @@ export const profileConfig: Record<ProfileId, ProfileConfig> = {
       ],
     },
     maxProjects: 6,
+    maxOss: 4,
     fileSlug: "React_NextJS",
   },
 
@@ -814,7 +840,16 @@ export type ResolvedResume = {
 const matches = (tags: ProfileId[] | "all", profile: ProfileId) =>
   tags === "all" || tags.includes(profile);
 
-export function buildResume(market: Market, profile: ProfileId): ResolvedResume {
+export function buildResume(
+  market: Market,
+  profile: ProfileId,
+  /**
+   * Explicit project selection from the download dialog. When present it wins
+   * outright — the caller chose these, so neither the profile's tags nor its
+   * `maxProjects` cap applies. Omit for the profile's defaults.
+   */
+  selectedProjectIds?: number[] | null
+): ResolvedResume {
   const p = profileConfig[profile];
   const m = marketConfig[market];
 
@@ -853,9 +888,12 @@ export function buildResume(market: Market, profile: ProfileId): ResolvedResume 
           .map((b) => b.text(metrics)),
       }))
       .filter((job) => job.bullets.length > 0),
-    projects: projects
-      .filter((proj) => proj.profiles.includes(profile))
-      .slice(0, p.maxProjects),
+    projects: selectedProjectIds?.length
+      ? // Keep the pool's rank order rather than the order ids arrived in.
+        projects.filter((proj) => selectedProjectIds.includes(proj.id))
+      : projects
+          .filter((proj) => proj.profiles.includes(profile))
+          .slice(0, p.maxProjects),
     openSource: openSource
       .filter((o) => matches(o.profiles, profile))
       .slice(0, p.maxOss ?? Infinity),

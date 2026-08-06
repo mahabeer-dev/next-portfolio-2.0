@@ -16,6 +16,7 @@ import {
   resumeFileName,
   isMarket,
   isProfile,
+  parseProjectIds,
   DEFAULT_MARKET,
   DEFAULT_PROFILE,
 } from "@/lib/resume";
@@ -34,9 +35,13 @@ export async function GET(request: Request) {
   const market = isMarket(marketParam) ? marketParam : DEFAULT_MARKET;
   const profile = isProfile(profileParam) ? profileParam : DEFAULT_PROFILE;
 
+  // "?projects=1,4,9" overrides the profile's default selection. Unknown or
+  // malformed ids are dropped; an empty result falls back to the defaults.
+  const projectIds = parseProjectIds(searchParams.get("projects"));
+
   ensureAtsSafeTypography();
 
-  const resume = buildResume(market, profile);
+  const resume = buildResume(market, profile, projectIds);
   const buffer = await renderToBuffer(<ResumeDocument resume={resume} />);
   const filename = resumeFileName(market, profile);
 

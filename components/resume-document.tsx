@@ -54,22 +54,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 38,
     fontFamily: "Helvetica",
     fontSize: 9.5,
-    lineHeight: 1.42,
+    // 1.35 rather than 1.42: buys roughly half a page of headroom across the
+    // whole document, which is what keeps every variant to two pages as
+    // projects get added. Still comfortably readable in print.
+    lineHeight: 1.35,
     color: COLORS.text,
   },
 
   /* Header */
   // No letterSpacing anywhere: react-pdf writes each glyph at an explicit
   // offset, and extractors then read "M a h a b e e r" instead of "Mahabeer".
+  //
+  // The page's 1.42 lineHeight is inherited as a multiplier, which at 21pt
+  // leaves the name's descenders sitting on top of the headline. Give the
+  // name its own line box and explicit breathing room instead.
   name: {
     fontFamily: "Helvetica-Bold",
     fontSize: 21,
-    marginBottom: 3,
+    lineHeight: 1.2,
+    marginBottom: 5,
   },
   headline: {
     fontSize: 10,
+    lineHeight: 1.3,
     color: COLORS.muted,
-    marginBottom: 5,
+    marginBottom: 7,
   },
   contactRow: {
     flexDirection: "row",
