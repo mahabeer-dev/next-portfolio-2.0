@@ -59,7 +59,21 @@ export default function AdminQueryNotification({
             <strong>Subject:</strong> {subject}
           </Text>
           <Text style={{ color: "#555555", fontSize: "16px" }}>
-            <strong>Message:</strong> {message}
+            <strong>Message:</strong>
+          </Text>
+          {/* pre-wrap keeps the visitor's line breaks — plain HTML collapses
+              them, turning a multi-paragraph enquiry into one solid block. */}
+          <Text
+            style={{
+              color: "#555555",
+              fontSize: "16px",
+              whiteSpace: "pre-wrap",
+              backgroundColor: "#f6f6f6",
+              padding: "12px",
+              borderRadius: "6px",
+            }}
+          >
+            {message}
           </Text>
 
           <Text
