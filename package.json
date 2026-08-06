@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "verify:resume": "bash scripts/verify-resume.sh"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

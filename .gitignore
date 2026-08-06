@@ -35,3 +35,6 @@ pnpm-lock.yaml
 # These contain salary expectations, skill gaps and unfinished resume drafts.
 HISTORY.md
 /resume/
+
+# playwright-mcp scratch output
+.playwright-mcp/

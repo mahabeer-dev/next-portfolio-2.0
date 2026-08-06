@@ -469,7 +469,7 @@ export const openSource: OssItem[] = [
   {
     name: "natify-web-bridge",
     summary:
-      "Authored and published an npm package that bridges web applications to native mobile capabilities, letting web code trigger device features such as camera access, GPS, and push notifications.",
+      "Authored and published an npm package that lets web applications trigger native mobile features such as camera, GPS, and push notifications.",
     profiles: ["mobile", "react", "javascript", "fullstack"],
   },
   {
@@ -520,6 +520,8 @@ export type ProfileConfig = {
   skillOverrides?: Partial<Record<SkillGroupId, string[]>>;
   /** Cap on Selected Projects for this variant. */
   maxProjects: number;
+  /** Cap on Open Source entries. Omit for no cap. */
+  maxOss?: number;
   /** Used in the download filename. */
   fileSlug: string;
 };
@@ -566,10 +568,12 @@ export const profileConfig: Record<ProfileId, ProfileConfig> = {
         "Git",
       ],
     },
-    // 5, not 6: this is the longest variant (it carries the international
-    // authorization line and every skill group), and a 6th project tips it
-    // onto a third page.
+    // This is the longest variant — it carries the international
+    // authorization line and every skill group — so it is the one that tips
+    // onto a third page first. Keep `npm run verify:resume` green when
+    // changing these.
     maxProjects: 5,
+    maxOss: 4,
     fileSlug: "FullStack",
   },
 
@@ -852,7 +856,9 @@ export function buildResume(market: Market, profile: ProfileId): ResolvedResume 
     projects: projects
       .filter((proj) => proj.profiles.includes(profile))
       .slice(0, p.maxProjects),
-    openSource: openSource.filter((o) => matches(o.profiles, profile)),
+    openSource: openSource
+      .filter((o) => matches(o.profiles, profile))
+      .slice(0, p.maxOss ?? Infinity),
     education,
     languages: m.showLanguages ? languages : [],
     noticePeriod: m.noticePeriod ?? null,
