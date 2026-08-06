@@ -28,3 +28,10 @@ next-env.d.ts
 
 package-lock.json
 pnpm-lock.yaml
+# macOS
+.DS_Store
+
+# Personal career-coaching working files — this repo is PUBLIC.
+# These contain salary expectations, skill gaps and unfinished resume drafts.
+HISTORY.md
+/resume/
