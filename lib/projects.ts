@@ -30,23 +30,46 @@ export const projects: Project[] = [
     id: 15,
     title: "Sindhiplex",
     description:
-      "Sindhiplex is the first Sindhi-language OTT streaming platform, carrying web series, music shows, devotional, cooking and educational programming. Viewers browse a catalogue organised by category and tag, search across titles, create an account, and stream episodes in the browser, with companion apps on the App Store and Google Play.",
+      "Sindhiplex is the first Sindhi-language OTT streaming platform, carrying web series, music shows, devotional, cooking and educational programming. Delivered end to end: a React web app, React Native apps on the App Store and Google Play, and a Node.js, Express and MongoDB backend, with catalogue browsing by category and tag, search, subscriber accounts and video streaming on AWS.",
     image: "/projects/sindhiplex.webp",
     tags: [
       "React",
-      "Vite",
+      "React Native",
+      "Node.js",
+      "Express",
+      "MongoDB",
       "Video Streaming",
-      "Fluid Player",
-      "AWS S3",
-      "CloudFront",
+      "AWS",
     ],
     liveUrl: "https://sindhiplex.com/",
     category: "reactJs",
     resumeRank: 1,
+    profiles: ["fullstack", "react", "node", "mobile", "javascript"],
+    resumeSummary:
+      "First Sindhi-language OTT platform, delivered end to end: React web app, React Native iOS and Android apps, and a Node.js/Express/MongoDB backend, with subscriber accounts and video streaming on AWS.",
+    resumeStack: [
+      "React",
+      "React Native",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "AWS",
+    ],
+  },
+  {
+    id: 16,
+    title: "Multiflix",
+    description:
+      "Multiflix is a social video platform for creators, covering short-form video with an in-app editor, an algorithmic feed, live rooms and chat, creator analytics, and monetization through tips, subscriptions and brand deals. The marketing site is built with Next.js and deployed on Vercel, with the app published on Google Play.",
+    image: "/projects/multiflix.webp",
+    tags: ["Next.js", "React", "TypeScript", "Vercel"],
+    liveUrl: "https://www.multiflix.in/",
+    category: "nextjs",
+    resumeRank: 2,
     profiles: ["fullstack", "react", "javascript"],
     resumeSummary:
-      "First Sindhi-language OTT streaming platform — catalogue browsing, search, subscriber accounts, and in-browser episode playback, served from AWS S3 and CloudFront.",
-    resumeStack: ["React", "Vite", "Video Streaming", "AWS S3", "CloudFront"],
+      "Social video platform for creators — short-form video with an in-app editor, an algorithmic feed, live rooms, creator analytics and monetization through tips and subscriptions. Next.js site on Vercel; Android app on Google Play.",
+    resumeStack: ["Next.js", "React", "TypeScript", "Vercel"],
   },
   {
     id: 1,
@@ -57,7 +80,7 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "TypeScript", "Tailwind CSS", "Stripe", "Prisma"],
     liveUrl: "https://www.minoasrentals.com/",
     category: "sveltekit",
-    resumeRank: 2,
+    resumeRank: 3,
     profiles: ["fullstack", "sveltekit", "javascript", "node"],
     resumeSummary:
       "Vehicle rental booking platform with date-based availability and Stripe payments.",
@@ -71,7 +94,7 @@ export const projects: Project[] = [
     tags: ["Bubble.io", "Stripe", "Open AI"],
     liveUrl: "https://app.linkedscribe.com/",
     category: "bubble",
-    resumeRank: 12,
+    resumeRank: 13,
     profiles: ["bubble", "fullstack"],
     resumeSummary:
       "AI-powered LinkedIn content platform with OpenAI generation and Stripe subscription billing.",
@@ -86,7 +109,7 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Tailwind CSS", "Razorpay", "VPS", "Mysql"],
     liveUrl: "https://memantra.co.in/",
     category: "sveltekit",
-    resumeRank: 8,
+    resumeRank: 9,
     profiles: ["sveltekit", "fullstack", "node"],
     resumeSummary:
       "Nutrition and wellness platform with personalized plans and Razorpay checkout, self-hosted on a Linux VPS.",
@@ -102,7 +125,7 @@ export const projects: Project[] = [
     liveUrl:
       "https://play.google.com/store/apps/details?id=com.clipme.extension",
     category: "react-native",
-    resumeRank: 6,
+    resumeRank: 7,
     profiles: ["mobile", "fullstack"],
     resumeName: "ClipMe",
     resumeSummary:
@@ -118,7 +141,7 @@ export const projects: Project[] = [
     tags: ["React Native", "Android", "Mobile"],
     liveUrl: "https://emrit.io/about/",
     category: "react-native",
-    resumeRank: 15,
+    resumeRank: 16,
     profiles: ["mobile"],
     resumeSummary:
       "Contributed features and improvements to the Android app for a hardware/network product.",
@@ -132,7 +155,7 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Tailwind CSS", "Strapi CMS"],
     liveUrl: "https://topnotchsecurityinc.com/",
     category: "sveltekit",
-    resumeRank: 11,
+    resumeRank: 12,
     profiles: ["sveltekit", "javascript"],
     resumeName: "Top Notch Security",
     resumeSummary:
@@ -148,7 +171,7 @@ export const projects: Project[] = [
     liveUrl:
       "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
     category: "bubble",
-    resumeRank: 14,
+    resumeRank: 15,
     profiles: ["bubble"],
     resumeSummary:
       "AI-content social platform where users create and share generated content, with Stripe monetization.",
@@ -163,7 +186,7 @@ export const projects: Project[] = [
     tags: ["React Native", "React.js", "Tailwind CSS"],
     liveUrl: "https://www.ellomed.com/",
     category: "reactJs",
-    resumeRank: 7,
+    resumeRank: 8,
     profiles: ["mobile", "react", "javascript"],
     resumeSummary:
       "Healthcare product delivered across a React Native app and a Next.js marketing site, with a shared responsive component system.",
@@ -184,7 +207,7 @@ export const projects: Project[] = [
     ],
     liveUrl: "",
     category: "react-native",
-    resumeRank: 5,
+    resumeRank: 6,
     profiles: ["fullstack", "mobile", "react", "node"],
     resumeSummary:
       "iOS and Android driver app for a Canadian logistics operator: load management, real-time dispatcher chat, media sharing, and live location tracking.",
@@ -199,7 +222,7 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Tailwind CSS", "Prisma", "MySQL"],
     liveUrl: "https://akairis.com/",
     category: "sveltekit",
-    resumeRank: 10,
+    resumeRank: 11,
     profiles: ["sveltekit", "javascript"],
     resumeName: "Akairis",
     resumeSummary:
@@ -221,7 +244,7 @@ export const projects: Project[] = [
     ],
     liveUrl: "https://lexiumworld.com/",
     category: "sveltekit",
-    resumeRank: 3,
+    resumeRank: 4,
     profiles: ["fullstack", "sveltekit", "node", "bubble"],
     resumeSummary:
       "Full-stack CRM with an n8n-powered WhatsApp bot: customers file complaints over WhatsApp, and multi-level admins assign and track them to OTP-verified completion.",
@@ -235,7 +258,7 @@ export const projects: Project[] = [
     tags: ["SvelteKit", "Prisma", "MySQL", "Tailwind CSS", "Gemini"],
     liveUrl: "https://www.sirlekhtv.com/",
     category: "sveltekit",
-    resumeRank: 9,
+    resumeRank: 10,
     profiles: ["sveltekit", "fullstack"],
     resumeSummary:
       "Public website plus internal CRM with Gemini-assisted content workflows.",
@@ -250,7 +273,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "MySQL", "Prisma", "NextAuth", "JWT"],
     liveUrl: "https://cultivaid.vercel.app/",
     category: "nextjs",
-    resumeRank: 4,
+    resumeRank: 5,
     profiles: ["fullstack", "react", "node", "javascript"],
     resumeSummary:
       "Multi-role agriculture CRM (Super Admin, Agronomist, Farmer, Student) with role-based access control, notifications, and in-app messaging.",
@@ -270,7 +293,7 @@ export const projects: Project[] = [
     ],
     liveUrl: "https://www.heybonds.com/",
     category: "bubble",
-    resumeRank: 13,
+    resumeRank: 14,
     profiles: ["bubble"],
     resumeName: "Bonds",
     resumeSummary:
