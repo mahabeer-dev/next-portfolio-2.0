@@ -85,7 +85,12 @@ export type Metrics = {
   ellocentAppInstalls: string | null;
   /** Component library reuse, e.g. "4 products across 2 teams". */
   ellocentLibraryReuse: string | null;
-  /** ClipMe installs from Play Console, e.g. "1k+ installs". */
+  /**
+   * ClipMe installs.
+   * RESOLVED 2026-08-07 — the live Play listing shows 10+. That is far too
+   * small to quote and is disprovable in one click, so this stays null and
+   * ClipMe is described by what it does instead. Revisit only if it grows.
+   */
   clipmeInstalls: string | null;
 };
 

@@ -45,8 +45,10 @@ export const projects: Project[] = [
     category: "reactJs",
     resumeRank: 1,
     profiles: ["fullstack", "react", "node", "mobile", "javascript"],
+    // "5k+ installs" verified on the Play Store listing (com.sutraflix.app),
+    // 2026-08-07. Re-check before quoting it in a new application.
     resumeSummary:
-      "First Sindhi-language OTT platform, delivered end to end: React web app, React Native iOS and Android apps, and a Node.js/Express/MongoDB backend, with subscriber accounts and video streaming on AWS.",
+      "First Sindhi-language OTT platform, delivered end to end: React web app, React Native iOS and Android apps with 5k+ Play Store installs, and a Node.js/Express/MongoDB backend, with subscriber accounts and video streaming on AWS.",
     resumeStack: [
       "React",
       "React Native",
@@ -181,8 +183,9 @@ export const projects: Project[] = [
       "Watch entertaining, AI-powered social media trends on an innovative microblogging platform fully loaded with advanced AI content creation tools in a live AI data ecosystem. ChatMap AI is a dedicated AI-content sharing social platform where users can share AI content, build audience, and earn.",
     image: "/projects/chatmap.webp",
     tags: ["Bubble.io", "Stripe", "CSS"],
-    liveUrl:
-      "https://play.google.com/store/apps/details?id=com.chatmap.ai&hl=en",
+    // Play listing (com.chatmap.ai) returns 404 as of 2026-08-07 — the app has
+    // been delisted. Left unlinked rather than pointing at a dead store page.
+    liveUrl: "",
     category: "bubble",
     resumeRank: 15,
     profiles: ["bubble"],
