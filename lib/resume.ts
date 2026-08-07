@@ -69,8 +69,6 @@ export function isProfile(v: string | null): v is ProfileId {
  * ------------------------------------------------------------------ */
 
 export type Metrics = {
-  /** A named module/flow you own end-to-end at Indi IT, e.g. "the appointments module". */
-  indiitOwnedModule: string | null;
   /** API performance win, e.g. "cutting p95 latency by ~30%". Phrase as a clause. */
   indiitApiPerf: string | null;
   /** Data scale handled, e.g. "10k+ daily active users" or "1M+ records". */
@@ -95,7 +93,9 @@ export type Metrics = {
 };
 
 export const metrics: Metrics = {
-  indiitOwnedModule: null,
+  // Answered 2026-08-07: the module he owns is the construction site
+  // documentation manager, now stated outright in its own Indi IT bullet
+  // rather than as an optional clause.
   indiitApiPerf: null,
   indiitDataScale: null,
   clousorHealthcareScope: null,
@@ -286,12 +286,21 @@ export const experience: Job[] = [
     period: "Dec 2025 - Present",
     bullets: [
       {
+        // The strongest single thing on this CV, so it leads the current role.
+        // Deliberately omits the Figma comparison he used when describing it:
+        // on a resume that reads as a parity claim and invites scrutiny the
+        // module cannot survive, whereas the five interaction verbs carry the
+        // same signal on their own. "Real-time" is kept because it is his own
+        // word for it; note it describes the editor, not multi-user co-editing,
+        // which he has not claimed.
         profiles: "all",
-        text: (m) =>
-          `Ship production full-stack features across React and React Native front-ends and Node.js / Express / MongoDB services${opt(
-            m.indiitOwnedModule,
-            (v) => `, owning ${v} from API design through UI`
-          )}.`,
+        text: () =>
+          "Own the construction site documentation module end to end, building a real-time React canvas editor where users draw, annotate, measure, comment on, and link drawings, floor plans, and related documents.",
+      },
+      {
+        profiles: "all",
+        text: () =>
+          "Ship production full-stack features across React and React Native front-ends and Node.js / Express / MongoDB services.",
       },
       {
         profiles: ["fullstack", "node", "javascript", "sveltekit", "bubble"],
