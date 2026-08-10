@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { FadeIn } from "./animations";
-import Link from "next/link";
+import ResumeDownloadDialog from "./resume-download-dialog";
 import { getYearsMonthsSince } from "@/lib/utils";
 
 export default function About() {
@@ -47,19 +46,7 @@ export default function About() {
             </div>
             <FadeIn direction="up" delay={0.3}>
               <div className="flex flex-col gap-2 min-[400px]:flex-row pt-2">
-                <Button
-                  variant="outline"
-                  className="w-full min-[400px]:w-auto text-sm"
-                  aria-label="Download Resume"
-                >
-                  <Link
-                    className="px-btn px-btn-theme"
-                    href="/MahabeerResume.pdf"
-                    target="_blank"
-                  >
-                    Download Resume
-                  </Link>
-                </Button>
+                <ResumeDownloadDialog />
               </div>
             </FadeIn>
           </div>
