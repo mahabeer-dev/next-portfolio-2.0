@@ -21,6 +21,14 @@ const nextConfig = {
   // react-pdf ships Node-targeted CJS with font/binary assets; bundling it
   // breaks PDF generation, so keep it external on the server.
   serverExternalPackages: ['@react-pdf/renderer'],
+  // The services and service-by-city pages were removed; their URLs were
+  // indexed, so they redirect to the homepage rather than 404.
+  async redirects() {
+    return [
+      { source: '/services', destination: '/', permanent: true },
+      { source: '/services/:path*', destination: '/', permanent: true },
+    ]
+  },
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
